@@ -13,9 +13,9 @@ class AppConfiguration {
 
     switch (flavor) {
       case Environment.dev:
-        return AppConfiguration._internal('https://pokeapi.co', flavor.name);
+        return AppConfiguration._internal('pokeapi.co', flavor.name);
       default:
-        return AppConfiguration._internal('https://pokeapi.co', flavor.name);
+        return AppConfiguration._internal('pokeapi.co', flavor.name);
     }
   }
 

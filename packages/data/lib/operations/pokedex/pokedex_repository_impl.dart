@@ -1,5 +1,9 @@
+import 'package:data/models/pokemon_details_response.dart';
+import 'package:data/models/pokemon_reponse.dart';
 import 'package:data/operations/pokedex/pokedex_remote_data_source.dart';
+import 'package:domain/models/base_pagination_business.dart';
 import 'package:domain/models/pokemon_business.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 
 import 'package:domain/operations/pokedex/pokedex_repository.dart';
 
@@ -9,9 +13,19 @@ class PokedexRepositoryImpl implements PokedexRepository {
   PokedexRepositoryImpl({required this.pokedexRemoteDataSource});
 
   @override
-  Future<List<PokemonBusiness>> getPokemons(int offset, int limit) async {
+  Future<BasePaginationBusiness<PokemonBusiness>> getPokemons(
+      int offset, int limit) async {
     final pokemons = await pokedexRemoteDataSource.getPokemons(offset, limit);
 
-    return pokemons.map((e) => e.t)
+    return pokemons.toDomain(
+      pokemons.results.map((pokemon) => pokemon.toDomain()).toList(),
+    );
+  }
+
+  @override
+  Future<PokemonDetailsBusiness> getPokemon(String url) async {
+    final pokemon = await pokedexRemoteDataSource.getPokemon(url);
+
+    return pokemon.toDomain();
   }
 }

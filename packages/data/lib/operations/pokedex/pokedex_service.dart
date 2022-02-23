@@ -5,16 +5,24 @@ import 'package:data/network/network_utils.dart';
 enum QueryParameters { offset, limit }
 
 class PokemonService {
-  Future<List<dynamic>> getPokemons(int offset, int limit) async =>
-      await requestServer(() async {
+  Future<Map<String, dynamic>> getPokemons(int offset, int limit) async =>
+      await requestServer<Map<String, dynamic>>(() async {
         final queryParameters = {
-          QueryParameters.offset.name: offset,
-          QueryParameters.limit.name: limit,
+          QueryParameters.offset.name: offset.toString(),
+          QueryParameters.limit.name: limit.toString(),
         };
-        final uri =
-            Uri.https(AppConfiguration.of().baseUrl, '', queryParameters);
+        final uri = Uri.https(
+            AppConfiguration.of().baseUrl, '/api/v2/pokemon', queryParameters);
         final response = await http_interceptor.get(uri);
 
-        return parsedResponse(response);
+        return parsedResponse<Map<String, dynamic>>(response);
+      });
+
+  Future<Map<String, dynamic>> getPokemon(String url) async =>
+      await requestServer<Map<String, dynamic>>(() async {
+        final uri = Uri(path: url);
+        final response = await http_interceptor.get(uri);
+
+        return parsedResponse<Map<String, dynamic>>(response);
       });
 }

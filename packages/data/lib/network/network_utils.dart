@@ -16,7 +16,8 @@ void printResponse(Response response) {
   debugPrint(response.body);
 }
 
-List<dynamic> parsedResponse(Response response) {
+// This will accept only two types for T: Map<String, dynamic> for single object and List<dynamic> for list of objects
+T parsedResponse<T>(Response response) {
   if (response.statusCode == badRequest) {
     throw RepositoryException();
   } else if (response.statusCode == unauthorized) {
@@ -28,8 +29,8 @@ List<dynamic> parsedResponse(Response response) {
   }
 }
 
-Future<List<dynamic>> requestServer(
-    Future<List<dynamic>> Function() request) async {
+// This will accept only two types for T: Map<String, dynamic> for single object and List<dynamic> for list of objects
+Future<T> requestServer<T>(Future<T> Function() request) async {
   try {
     return await request();
   } on SocketException {
