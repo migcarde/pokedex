@@ -20,7 +20,7 @@ class PokemonService {
 
   Future<Map<String, dynamic>> getPokemon(String url) async =>
       await requestServer<Map<String, dynamic>>(() async {
-        final uri = Uri(path: url);
+        final uri = Uri.parse(url);
         final response = await http_interceptor.get(uri);
 
         return parsedResponse<Map<String, dynamic>>(response);

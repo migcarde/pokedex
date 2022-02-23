@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -16,8 +18,35 @@ class PokedexView extends StatelessWidget {
             context.read<PokedexCubit>().getPokemons();
           } else if (state is PokedexData) {
             return ListView.builder(
-              itemBuilder: (context, index) => Text(
-                  '${state.data.results[index].name} ${state.data.results[index].picture}'),
+              itemBuilder: (context, index) {
+                final pokemon = state.data.results[index];
+
+                return ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 0.8, sigmaY: 0.8),
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10.0)),
+                          color: Colors.white.withOpacity(0.4),
+                          border: Border.all(
+                              width: 1.5,
+                              color: Colors.white.withOpacity(0.2))),
+                      child: Row(
+                        children: [
+                          Image.network(pokemon.picture),
+                          Text(
+                            pokemon.name,
+                            style: const TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
               itemCount: state.data.results.length,
             );
           }

@@ -18,7 +18,7 @@ class PokedexCubit extends Cubit<PokedexState> {
   }) : super(PokedexInitial());
 
   static const int _defaultOffset = 0;
-  static const int _defaultLimit = 20;
+  static const int _defaultLimit = 10;
 
   void getPokemons(
       [int offset = _defaultOffset, int limit = _defaultLimit]) async {
