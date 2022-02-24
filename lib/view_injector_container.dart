@@ -14,5 +14,6 @@ void init() {
   locator.registerFactory<PokedexCubit>(() => PokedexCubit(
         getPokedex: locator(),
         getPokemonDetails: locator(),
+        getPokemonDescription: locator(),
       ));
 }

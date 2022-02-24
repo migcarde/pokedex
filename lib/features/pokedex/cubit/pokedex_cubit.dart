@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:domain/models/pagination_params_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:domain/operations/pokedex/get_pokedex.dart';
+import 'package:domain/operations/pokedex/get_pokemon_description.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pokedex/base/base_pagination_view_model.dart';
@@ -12,9 +13,12 @@ part 'pokedex_state.dart';
 class PokedexCubit extends Cubit<PokedexState> {
   final GetPokedex getPokedex;
   final GetPokemonDetails getPokemonDetails;
+  final GetPokemonDescription getPokemonDescription;
+
   PokedexCubit({
     required this.getPokedex,
     required this.getPokemonDetails,
+    required this.getPokemonDescription,
   }) : super(PokedexInitial());
 
   static const int _defaultOffset = 0;
@@ -26,7 +30,7 @@ class PokedexCubit extends Cubit<PokedexState> {
       final params = PaginationParamsBusiness(offset: offset, limit: limit);
       final response = await getPokedex(params);
 
-      final pokedex = await _getPokedexList(response.results);
+      final pokedex = await _getPokemonDetails(response.results);
 
       emit(PokedexData(data: response.toViewModel<PokedexViewModel>(pokedex)));
     } catch (e) {
@@ -35,16 +39,20 @@ class PokedexCubit extends Cubit<PokedexState> {
     }
   }
 
-  Future<List<PokedexViewModel>> _getPokedexList(
+  Future<List<PokedexViewModel>> _getPokemonDetails(
       List<PokemonBusiness> pokemons) async {
     List<PokedexViewModel> result = [];
     for (var i = 0; i < pokemons.length; i++) {
       final pokemon = pokemons[i];
-      final response = await getPokemonDetails(pokemon.url);
+      final pokemonDetails = await getPokemonDetails(pokemon.url);
+      final pokemonDescription =
+          await getPokemonDescription(pokemonDetails.specie.url);
 
       result.add(PokedexViewModel(
         name: pokemon.name,
-        picture: response.sprite.backDefault,
+        picture: pokemonDetails.sprite.frontDefault,
+        types: pokemonDetails.slots.map((e) => e.type.name).toList(),
+        description: pokemonDescription.flavors.first.text ?? '',
       ));
     }
 
