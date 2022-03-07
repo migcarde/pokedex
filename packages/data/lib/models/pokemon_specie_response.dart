@@ -22,14 +22,33 @@ class PokemonSpecieResponse extends Equatable {
 
 class PokemonFlavorEntryResponse extends Equatable {
   final String text;
+  final PokemonLanguageResponse language;
 
-  const PokemonFlavorEntryResponse({required this.text});
+  const PokemonFlavorEntryResponse({
+    required this.text,
+    required this.language,
+  });
 
   factory PokemonFlavorEntryResponse.fromJson(Map<String, dynamic> json) =>
-      PokemonFlavorEntryResponse(text: json['flavor_text']);
+      PokemonFlavorEntryResponse(
+        text: json['flavor_text'],
+        language: PokemonLanguageResponse.fromJson(json['language']),
+      );
 
   @override
   List<Object?> get props => [text];
+}
+
+class PokemonLanguageResponse extends Equatable {
+  final String name;
+
+  const PokemonLanguageResponse({required this.name});
+
+  factory PokemonLanguageResponse.fromJson(Map<String, dynamic> json) =>
+      PokemonLanguageResponse(name: json['name']);
+
+  @override
+  List<Object?> get props => [name];
 }
 
 extension PokemonSpecieResponseExtensions on PokemonSpecieResponse {
@@ -39,6 +58,12 @@ extension PokemonSpecieResponseExtensions on PokemonSpecieResponse {
 }
 
 extension PokemonFlavorEntryResponseExtensions on PokemonFlavorEntryResponse {
-  PokemonFlavorEntryBusiness toDomain() =>
-      PokemonFlavorEntryBusiness(text: text);
+  PokemonFlavorEntryBusiness toDomain() => PokemonFlavorEntryBusiness(
+        text: text,
+        language: language.toDomain(),
+      );
+}
+
+extension PokemonLanguageResponseExtensions on PokemonLanguageResponse {
+  PokemonLanguageBusiness toDomain() => PokemonLanguageBusiness(name: name);
 }

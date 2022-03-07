@@ -7,6 +7,7 @@ import 'package:domain/operations/pokedex/get_pokemon_details.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pokedex/base/base_pagination_view_model.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
+import 'package:pokedex/common/string_extensions.dart';
 
 part 'pokedex_state.dart';
 
@@ -51,8 +52,13 @@ class PokedexCubit extends Cubit<PokedexState> {
       result.add(PokedexViewModel(
         name: pokemon.name,
         picture: pokemonDetails.sprite.frontDefault,
-        types: pokemonDetails.slots.map((e) => e.type.name).toList(),
-        description: pokemonDescription.flavors.first.text ?? '',
+        types: pokemonDetails.slots
+            .map((pokemonDetail) => pokemonDetail.type.name.capitalize())
+            .toList(),
+        description: pokemonDescription.flavors
+            .firstWhere((flavor) => flavor.language.name == 'en')
+            .text
+            .removeJumpLines(),
       ));
     }
 
