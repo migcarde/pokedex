@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/features/pokedex/pokedex_view.dart';
+import 'package:pokedex/features/pokedex/pokedex_mobile_view.dart';
 import 'view_injector_container.dart' as di;
 
 void main() {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            child: const PokedexView()),
+            child: const PokedexMobileView()),
       ),
     );
   }

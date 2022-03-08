@@ -1,5 +1,5 @@
 import 'package:domain/base/base_use_case.dart';
-import 'package:domain/models/pokemon_specie_busines.dart';
+import 'package:domain/models/pokemon_specie_business.dart';
 import 'package:domain/operations/pokedex/pokedex_repository.dart';
 
 class GetPokemonDescription extends BaseUseCase<PokemonSpecieBusiness, String> {

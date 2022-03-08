@@ -1,4 +1,4 @@
-import 'package:domain/models/pokemon_specie_busines.dart';
+import 'package:domain/models/pokemon_specie_business.dart';
 import 'package:equatable/equatable.dart';
 
 class PokemonSpecieResponse extends Equatable {

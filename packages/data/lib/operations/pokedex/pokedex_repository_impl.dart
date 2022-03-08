@@ -5,7 +5,7 @@ import 'package:data/operations/pokedex/pokedex_remote_data_source.dart';
 import 'package:domain/models/base_pagination_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:domain/models/pokemon_details_business.dart';
-import 'package:domain/models/pokemon_specie_busines.dart';
+import 'package:domain/models/pokemon_specie_business.dart';
 
 import 'package:domain/operations/pokedex/pokedex_repository.dart';
 

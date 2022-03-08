@@ -14,3 +14,7 @@ const veryLargeDimen = 36.0;
 
 // Radius
 const double circularRadius = 50.0;
+
+// Screen
+const tabletWidth = 700.0;
+const desktopWidth = 1200.0;
