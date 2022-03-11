@@ -13,7 +13,6 @@ class PokedexDesktopCard extends StatelessWidget {
 
   final PokedexViewModel pokemon;
 
-  static const double cardDimen = 400.0;
   static const double pokemonBoxPositioned = -30.0;
 
   @override
@@ -24,7 +23,6 @@ class PokedexDesktopCard extends StatelessWidget {
         right: veryLargeDimen,
         top: veryLargeDimen,
       ),
-      width: cardDimen,
       decoration: BoxDecorationStyles.crystal(),
       child: Stack(
         clipBehavior: Clip.none,

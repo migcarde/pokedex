@@ -15,6 +15,9 @@ class PokedexData extends PokedexState {
   final BasePaginationViewModel<PokedexViewModel> data;
 
   const PokedexData({required this.data});
+
+  @override
+  List<Object> get props => [data];
 }
 
 class PokedexError extends PokedexState {

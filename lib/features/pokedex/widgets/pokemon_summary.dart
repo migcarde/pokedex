@@ -22,7 +22,9 @@ class PokemonSummary extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(mediumDimen)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(mediumDimen),
+        ),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
           child: Column(
@@ -45,7 +47,7 @@ class PokemonSummary extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: bigTinyDimen,
+                  top: mediumBigDimen,
                   left: mediumDimen,
                   right: mediumDimen,
                 ),
@@ -56,7 +58,7 @@ class PokemonSummary extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: bigTinyDimen,
+                  vertical: mediumBigDimen,
                   horizontal: mediumDimen,
                 ),
                 child: Wrap(

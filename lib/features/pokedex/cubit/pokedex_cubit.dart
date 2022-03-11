@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:domain/models/pagination_params_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:domain/operations/pokedex/get_pokedex.dart';
+import 'package:domain/operations/pokedex/get_pokedex_by_url.dart';
 import 'package:domain/operations/pokedex/get_pokemon_description.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details.dart';
 import 'package:equatable/equatable.dart';
@@ -13,20 +14,22 @@ part 'pokedex_state.dart';
 
 class PokedexCubit extends Cubit<PokedexState> {
   final GetPokedex getPokedex;
+  final GetPokedexByUrl getPokedexByUrl;
   final GetPokemonDetails getPokemonDetails;
   final GetPokemonDescription getPokemonDescription;
 
   PokedexCubit({
     required this.getPokedex,
+    required this.getPokedexByUrl,
     required this.getPokemonDetails,
     required this.getPokemonDescription,
   }) : super(PokedexInitial());
 
   static const int _defaultOffset = 0;
-  static const int _defaultLimit = 10;
+  static const int _defaultLimit = 30;
 
   void getPokemons(
-      [int offset = _defaultOffset, int limit = _defaultLimit]) async {
+      {int offset = _defaultOffset, int limit = _defaultLimit}) async {
     try {
       final params = PaginationParamsBusiness(offset: offset, limit: limit);
       final response = await getPokedex(params);
@@ -34,6 +37,22 @@ class PokedexCubit extends Cubit<PokedexState> {
       final pokedex = await _getPokemonDetails(response.results);
 
       emit(PokedexData(data: response.toViewModel<PokedexViewModel>(pokedex)));
+    } catch (e) {
+      emit(const PokedexError(
+          message: 'Opps, something is wrong. Please, try again later'));
+    }
+  }
+
+  void getPokemonsByUrl(
+      String url, BasePaginationViewModel<PokedexViewModel> pokemons) async {
+    try {
+      final response = await getPokedexByUrl(url);
+
+      final pokedex = await _getPokemonDetails(response.results);
+      pokemons.results.addAll(pokedex);
+
+      emit(PokedexData(
+          data: response.toViewModel<PokedexViewModel>(pokemons.results)));
     } catch (e) {
       emit(const PokedexError(
           message: 'Opps, something is wrong. Please, try again later'));

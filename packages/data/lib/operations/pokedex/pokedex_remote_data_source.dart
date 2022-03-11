@@ -18,6 +18,15 @@ class PokedexRemoteDataSource {
     return BasePaginationResponse<PokemonResponse>.fromJson(response, results);
   }
 
+  Future<BasePaginationResponse<PokemonResponse>> getPokemonsByUrl(
+      String url) async {
+    final response = await service.getPokemonsByUrl(url);
+    final List<dynamic> list = response['results'];
+    final results = list.map((json) => PokemonResponse.fromJson(json)).toList();
+
+    return BasePaginationResponse<PokemonResponse>.fromJson(response, results);
+  }
+
   Future<PokemonDetailsResponse> getPokemon(String url) async {
     final response = await service.getPokemon(url);
 

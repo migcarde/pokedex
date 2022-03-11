@@ -13,6 +13,7 @@ void init() {
   // Bloc cubits
   locator.registerFactory<PokedexCubit>(() => PokedexCubit(
         getPokedex: locator(),
+        getPokedexByUrl: locator(),
         getPokemonDetails: locator(),
         getPokemonDescription: locator(),
       ));

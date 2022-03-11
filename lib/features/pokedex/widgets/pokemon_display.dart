@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:pokedex/common/dimens.dart';
+import 'package:pokedex/widgets/crystal_card.dart';
 
 class PokemonDisplay extends StatelessWidget {
   const PokemonDisplay({
@@ -11,31 +9,17 @@ class PokemonDisplay extends StatelessWidget {
 
   final String picture;
 
-  static const double blurSigma = 40.0;
-  static const double boxOpacity = 0.2;
-  static const double pokemonPictureDimen = 60.0;
+  static const double _boxOpacity = 0.1;
+  static const double _pokemonPictureDimen = 60.0;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(circularRadius),
-        ),
-        color: Colors.black.withOpacity(boxOpacity),
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(circularRadius),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-          child: Image.network(
-            picture,
-            width: pokemonPictureDimen,
-            height: pokemonPictureDimen,
-          ),
-        ),
+    return CrystalCard(
+      boxOpacity: _boxOpacity,
+      child: Image.network(
+        picture,
+        width: _pokemonPictureDimen,
+        height: _pokemonPictureDimen,
       ),
     );
   }

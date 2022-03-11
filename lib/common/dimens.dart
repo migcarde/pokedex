@@ -18,3 +18,10 @@ const double circularRadius = 50.0;
 // Screen
 const tabletWidth = 700.0;
 const desktopWidth = 1200.0;
+
+// Text
+const largeText = 48.0;
+
+// Cards
+const cardWidthDimen = 400.0;
+const cardHeightDimen = 130.0;

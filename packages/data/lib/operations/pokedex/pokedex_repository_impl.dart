@@ -25,6 +25,16 @@ class PokedexRepositoryImpl implements PokedexRepository {
   }
 
   @override
+  Future<BasePaginationBusiness<PokemonBusiness>> getPokemonsByUrl(
+      String url) async {
+    final pokemons = await pokedexRemoteDataSource.getPokemonsByUrl(url);
+
+    return pokemons.toDomain(
+      pokemons.results.map((pokemon) => pokemon.toDomain()).toList(),
+    );
+  }
+
+  @override
   Future<PokemonDetailsBusiness> getPokemon(String url) async {
     final pokemon = await pokedexRemoteDataSource.getPokemon(url);
 
