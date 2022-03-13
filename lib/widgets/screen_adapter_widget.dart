@@ -16,9 +16,9 @@ class ScreenAdapterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late Widget screen;
-    if (MediaQuery.of(context).size.width <= tabletWidth) {
+    if (MediaQuery.of(context).size.width <= Dimens.tabletWidth) {
       screen = mobileScreen;
-    } else if (MediaQuery.of(context).size.width <= desktopWidth) {
+    } else if (MediaQuery.of(context).size.width <= Dimens.desktopWidth) {
       screen = tabletScreen ?? mobileScreen;
     } else {
       screen = desktopScreen ?? mobileScreen;

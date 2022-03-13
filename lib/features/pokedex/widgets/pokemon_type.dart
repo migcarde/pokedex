@@ -22,7 +22,7 @@ class PokemonType extends StatelessWidget {
       decoration: BoxDecorationStyles.crystal(boxOpacity: boxOpacity),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
-          Radius.circular(circularRadius),
+          Radius.circular(Dimens.circularRadius),
         ),
         child: BackdropFilter(
           filter: ImageFilter.blur(
@@ -31,7 +31,7 @@ class PokemonType extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: mediumDimen,
+              horizontal: Dimens.mediumDimen,
             ),
             child: Text(
               type,

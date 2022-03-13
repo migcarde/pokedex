@@ -13,7 +13,11 @@ void printResponse(Response response) {
   debugPrint('Request: ${response.request.toString()}');
   debugPrint('Headers: ${response.headers}');
   debugPrint('Response-body: ${response.statusCode}');
-  debugPrint(response.body);
+
+  final requestBody = response.body.length >= 3000
+      ? '${response.body.substring(0, 3000)}...'
+      : response.body.substring(0, response.body.length);
+  debugPrint(requestBody);
 }
 
 // This will accept only two types for T: Map<String, dynamic> for single object and List<dynamic> for list of objects

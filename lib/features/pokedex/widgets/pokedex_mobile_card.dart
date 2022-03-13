@@ -19,9 +19,9 @@ class PokedexMobileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(
-        left: veryLargeDimen,
-        right: veryLargeDimen,
-        top: veryLargeDimen,
+        left: Dimens.veryLargeDimen,
+        right: Dimens.veryLargeDimen,
+        top: Dimens.veryLargeDimen,
       ),
       decoration: BoxDecorationStyles.crystal(),
       child: Stack(

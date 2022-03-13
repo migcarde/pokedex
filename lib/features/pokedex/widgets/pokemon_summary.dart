@@ -23,7 +23,7 @@ class PokemonSummary extends StatelessWidget {
       width: double.infinity,
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
-          Radius.circular(mediumDimen),
+          Radius.circular(Dimens.mediumDimen),
         ),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
@@ -33,9 +33,9 @@ class PokemonSummary extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  top: bigTinyDimen,
-                  left: mediumDimen,
-                  right: mediumDimen,
+                  top: Dimens.bigTinyDimen,
+                  left: Dimens.mediumDimen,
+                  right: Dimens.mediumDimen,
                 ),
                 child: Text(
                   pokemon.name.capitalize(),
@@ -47,9 +47,9 @@ class PokemonSummary extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: mediumBigDimen,
-                  left: mediumDimen,
-                  right: mediumDimen,
+                  top: Dimens.mediumBigDimen,
+                  left: Dimens.mediumDimen,
+                  right: Dimens.mediumDimen,
                 ),
                 child: Text(
                   pokemon.description.capitalize(),
@@ -58,11 +58,11 @@ class PokemonSummary extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: mediumBigDimen,
-                  horizontal: mediumDimen,
+                  vertical: Dimens.mediumBigDimen,
+                  horizontal: Dimens.mediumDimen,
                 ),
                 child: Wrap(
-                  spacing: mediumDimen,
+                  spacing: Dimens.mediumDimen,
                   children: pokemon.types
                       .map((type) => PokemonType(type: type))
                       .toList(),

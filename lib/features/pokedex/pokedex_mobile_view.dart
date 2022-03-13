@@ -17,26 +17,28 @@ class PokedexMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: _setupScrollController(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        if (hasNextPage && index == pokemons.length) {
-          return Padding(
-            padding: const EdgeInsets.only(top: bigDimen),
-            child: Image.asset(
-              'assets/pokemon_loader.gif',
-              height: veryLargeDimen,
-              fit: BoxFit.contain,
-            ),
-          );
-        } else {
-          final pokemon = pokemons[index];
+    return Scrollbar(
+      child: ListView.builder(
+        controller: _setupScrollController(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          if (hasNextPage && index == pokemons.length) {
+            return Padding(
+              padding: const EdgeInsets.only(top: Dimens.bigDimen),
+              child: Image.asset(
+                'assets/pokemon_loader.gif',
+                height: Dimens.veryLargeDimen,
+                fit: BoxFit.contain,
+              ),
+            );
+          } else {
+            final pokemon = pokemons[index];
 
-          return PokedexMobileCard(pokemon: pokemon);
-        }
-      },
-      itemCount: pokemons.length + 1,
+            return PokedexMobileCard(pokemon: pokemon);
+          }
+        },
+        itemCount: pokemons.length + 1,
+      ),
     );
   }
 

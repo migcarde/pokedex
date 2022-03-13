@@ -9,7 +9,7 @@ class BoxDecorationStyles {
           {Color color = _color, double boxOpacity = _boxOpacity}) =>
       BoxDecoration(
         borderRadius: const BorderRadius.all(
-          Radius.circular(mediumDimen),
+          Radius.circular(Dimens.mediumDimen),
         ),
         color: color.withOpacity(boxOpacity),
       );

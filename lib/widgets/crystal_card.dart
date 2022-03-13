@@ -21,13 +21,13 @@ class CrystalCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
-          Radius.circular(circularRadius),
+          Radius.circular(Dimens.circularRadius),
         ),
         color: Colors.black.withOpacity(boxOpacity),
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
-          Radius.circular(circularRadius),
+          Radius.circular(Dimens.circularRadius),
         ),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: _blurSigma, sigmaY: _blurSigma),
