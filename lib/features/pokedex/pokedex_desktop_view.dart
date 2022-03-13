@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pokedex/common/dimens.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 import 'package:pokedex/features/pokedex/widgets/pokedex_desktop_card.dart';
