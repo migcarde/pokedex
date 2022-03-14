@@ -1,3 +1,4 @@
+import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:equatable/equatable.dart';
 
@@ -24,6 +25,15 @@ extension PokedexViewModelExtension on PokemonBusiness {
     String description,
   ) =>
       PokedexViewModel(
+        name: name,
+        picture: picture,
+        description: description,
+        types: types,
+      );
+}
+
+extension PokedexViewModelLocalDatabaseExtensionsa on PokedexBusiness {
+  PokedexViewModel toViewModel() => PokedexViewModel(
         name: name,
         picture: picture,
         description: description,

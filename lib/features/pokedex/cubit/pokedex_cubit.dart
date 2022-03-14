@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:domain/models/pagination_params_business.dart';
+import 'package:domain/models/pokedex_local_database_params.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:domain/operations/pokedex/get_pokedex.dart';
 import 'package:domain/operations/pokedex/get_pokedex_by_url.dart';
+import 'package:domain/operations/pokedex/get_pokedex_from_database.dart';
 import 'package:domain/operations/pokedex/get_pokemon_description.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details.dart';
 import 'package:equatable/equatable.dart';
@@ -17,12 +19,14 @@ class PokedexCubit extends Cubit<PokedexState> {
   final GetPokedexByUrl getPokedexByUrl;
   final GetPokemonDetails getPokemonDetails;
   final GetPokemonDescription getPokemonDescription;
+  final GetPokedexFromDatabase getPokedexFromDatabase;
 
   PokedexCubit({
     required this.getPokedex,
     required this.getPokedexByUrl,
     required this.getPokemonDetails,
     required this.getPokemonDescription,
+    required this.getPokedexFromDatabase,
   }) : super(PokedexInitial());
 
   static const int _defaultOffset = 0;
@@ -82,5 +86,13 @@ class PokedexCubit extends Cubit<PokedexState> {
     }
 
     return result;
+  }
+
+  Future<List<PokedexViewModel>> _getPokedexDataFromDatabase(
+      int limit, int offset) async {
+    final pokedexData = await getPokedexFromDatabase
+        .call(PokedexLocalDatabaseParams(limit: limit, offset: offset));
+
+    return pokedexData.map((pokemon) => pokemon.toViewModel()).toList();
   }
 }

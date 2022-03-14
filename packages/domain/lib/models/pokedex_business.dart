@@ -1,3 +1,4 @@
+import 'package:data/models/pokedex_data_hive_model.dart';
 import 'package:equatable/equatable.dart';
 
 class PokedexBusiness extends Equatable {
@@ -15,4 +16,13 @@ class PokedexBusiness extends Equatable {
 
   @override
   List<Object?> get props => [name, picture, description, types];
+}
+
+extension PokedexBusinessExtensions on PokedexBusiness {
+  PokedexDataHiveModel toHiveModel() => PokedexDataHiveModel(
+        name: name,
+        picture: picture,
+        description: description,
+        types: types,
+      );
 }

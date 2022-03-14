@@ -1,3 +1,5 @@
+import 'package:data/models/pokedex_data_hive_model.dart';
+import 'package:domain/models/pokedex_business.dart';
 import 'package:hive/hive.dart';
 
 class PokedexLocalDataSource {
@@ -7,6 +9,22 @@ class PokedexLocalDataSource {
 
   PokedexLocalDataSource({required this.hive});
 
-  //TODO: Add getter for pokedex from hive
-  //TODO: Add setter from pokedex to hive
+  Future<List<PokedexDataHiveModel>> getPokedexData(
+      int limit, int offset) async {
+    final pokedexDataBox = await hive.openBox(pokedexBox);
+
+    return pokedexDataBox.values
+        .skip(offset)
+        .take(limit)
+        .toList()
+        .cast<PokedexDataHiveModel>();
+  }
+
+  void savePokedexData(List<PokedexBusiness> pokedexData) async {
+    final pokedexDataBox = await hive.openBox(pokedexBox);
+    final pokedexDataHiveModel =
+        pokedexData.map((pokemonData) => pokemonData.toHiveModel()).toList();
+
+    pokedexDataBox.addAll(pokedexDataHiveModel);
+  }
 }
