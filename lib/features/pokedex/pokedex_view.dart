@@ -14,6 +14,7 @@ class PokedexView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var offset = 0;
     return BlocProvider(
       create: (context) => GetIt.I<PokedexCubit>(),
       child: BlocBuilder<PokedexCubit, PokedexState>(
@@ -21,29 +22,36 @@ class PokedexView extends StatelessWidget {
           if (state is PokedexInitial) {
             context.read<PokedexCubit>().getPokemons();
           } else if (state is PokedexData) {
+            offset = state.data.count;
             final nextPage = state.data.next;
             return ScreenAdapterWidget(
               mobileScreen: PokedexMobileView(
                 pokemons: state.data.results,
-                hasNextPage: nextPage != null,
                 getMorePokemons: () {
                   if (nextPage != null) {
                     context.read<PokedexCubit>().getPokemonsByUrl(
                           nextPage,
                           state.data,
                         );
+                  } else {
+                    context
+                        .read<PokedexCubit>()
+                        .getMorePokemons(state.data, offset: offset);
                   }
                 },
               ),
               desktopScreen: PokedexDesktopView(
                   pokemons: state.data.results,
-                  hasNextPage: nextPage != null,
                   getMorePokemons: () {
                     if (nextPage != null) {
                       context.read<PokedexCubit>().getPokemonsByUrl(
                             nextPage,
                             state.data,
                           );
+                    } else {
+                      context
+                          .read<PokedexCubit>()
+                          .getMorePokemons(state.data, offset: offset);
                     }
                   }),
             );

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/features/pokedex/pokedex_view.dart';
 import 'view_injector_container.dart' as di;
+import 'package:data/hive_configuration.dart' as hive_configuration;
 
-void main() {
+void main() async {
   di.init();
+  await hive_configuration.initConfiguration();
   BlocOverrides.runZoned(() => runApp(const MyApp()));
 }
 

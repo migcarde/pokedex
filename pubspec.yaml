@@ -16,6 +16,7 @@ dependencies:
   get_it: ^7.2.0
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
+  bloc: ^8.0.3
 
   # Internal packages
   data:

@@ -1,3 +1,4 @@
+import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,13 +18,31 @@ class PokedexViewModel extends Equatable {
   List<Object?> get props => [name, picture];
 }
 
-extension PokedexViewModelExtension on PokemonBusiness {
+extension PokedexViewModelBusinessExtension on PokemonBusiness {
   PokedexViewModel toViewModel(
     String picture,
     List<String> types,
     String description,
   ) =>
       PokedexViewModel(
+        name: name,
+        picture: picture,
+        description: description,
+        types: types,
+      );
+}
+
+extension PokedexViewModelLocalDatabaseExtensions on PokedexBusiness {
+  PokedexViewModel toViewModel() => PokedexViewModel(
+        name: name,
+        picture: picture,
+        description: description,
+        types: types,
+      );
+}
+
+extension PokedexViewModelExtensions on PokedexViewModel {
+  PokedexBusiness toBusiness() => PokedexBusiness(
         name: name,
         picture: picture,
         description: description,
