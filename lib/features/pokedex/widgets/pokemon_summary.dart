@@ -15,7 +15,7 @@ class PokemonSummary extends StatelessWidget {
 
   final PokedexViewModel pokemon;
 
-  static const double blurSigma = 40.0;
+  static const double blurSigma = 10.0;
 
   @override
   Widget build(BuildContext context) {
