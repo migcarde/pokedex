@@ -57,24 +57,27 @@ class PokedexView extends StatelessWidget {
             );
           }
           return Center(
-            child: CrystalCard(
-                child: Padding(
+            child: Padding(
               padding: const EdgeInsets.all(Dimens.largeDimen),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Cargando...',
-                    style: TextStyles.bold(
-                        fontSize: Dimens.largeText, textColor: Colors.white),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: Dimens.bigDimen),
-                    child: Image.asset('assets/pokemon_loader.gif'),
-                  ),
-                ],
-              ),
-            )),
+              child: CrystalCard(
+                  child: Padding(
+                padding: const EdgeInsets.all(Dimens.largeDimen),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Cargando...',
+                      style: TextStyles.bold(
+                          fontSize: Dimens.largeText, textColor: Colors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: Dimens.bigDimen),
+                      child: Image.asset('assets/pokemon_loader.gif'),
+                    ),
+                  ],
+                ),
+              )),
+            ),
           );
         },
       ),
