@@ -17,5 +17,6 @@ void init() {
         getPokemonDetails: locator(),
         getPokemonDescription: locator(),
         getPokedexFromDatabase: locator(),
+        savePokedexToDatabase: locator(),
       ));
 }

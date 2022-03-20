@@ -7,12 +7,10 @@ class PokedexDesktopView extends StatelessWidget {
   const PokedexDesktopView({
     Key? key,
     required this.pokemons,
-    required this.hasNextPage,
     required this.getMorePokemons,
   }) : super(key: key);
 
   final List<PokedexViewModel> pokemons;
-  final bool hasNextPage;
   final VoidCallback getMorePokemons;
 
   @override
@@ -27,7 +25,7 @@ class PokedexDesktopView extends StatelessWidget {
         itemCount: pokemons.length + 1,
         controller: _setupScrollController(),
         itemBuilder: (BuildContext context, index) {
-          if (hasNextPage && index == pokemons.length) {
+          if (index == pokemons.length) {
             return Container(
               margin: const EdgeInsets.only(
                 left: Dimens.veryLargeDimen,

@@ -7,12 +7,10 @@ class PokedexMobileView extends StatelessWidget {
   const PokedexMobileView({
     Key? key,
     required this.pokemons,
-    required this.hasNextPage,
     required this.getMorePokemons,
   }) : super(key: key);
 
   final List<PokedexViewModel> pokemons;
-  final bool hasNextPage;
   final VoidCallback getMorePokemons;
 
   @override
@@ -22,7 +20,7 @@ class PokedexMobileView extends StatelessWidget {
         controller: _setupScrollController(),
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          if (hasNextPage && index == pokemons.length) {
+          if (index >= pokemons.length) {
             return Padding(
               padding: const EdgeInsets.only(top: Dimens.bigDimen),
               child: Image.asset(

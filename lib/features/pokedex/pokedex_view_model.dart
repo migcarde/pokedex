@@ -18,7 +18,7 @@ class PokedexViewModel extends Equatable {
   List<Object?> get props => [name, picture];
 }
 
-extension PokedexViewModelExtension on PokemonBusiness {
+extension PokedexViewModelBusinessExtension on PokemonBusiness {
   PokedexViewModel toViewModel(
     String picture,
     List<String> types,
@@ -32,8 +32,17 @@ extension PokedexViewModelExtension on PokemonBusiness {
       );
 }
 
-extension PokedexViewModelLocalDatabaseExtensionsa on PokedexBusiness {
+extension PokedexViewModelLocalDatabaseExtensions on PokedexBusiness {
   PokedexViewModel toViewModel() => PokedexViewModel(
+        name: name,
+        picture: picture,
+        description: description,
+        types: types,
+      );
+}
+
+extension PokedexViewModelExtensions on PokedexViewModel {
+  PokedexBusiness toBusiness() => PokedexBusiness(
         name: name,
         picture: picture,
         description: description,

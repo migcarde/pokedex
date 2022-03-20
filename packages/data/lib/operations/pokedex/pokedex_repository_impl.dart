@@ -62,4 +62,9 @@ class PokedexRepositoryImpl implements PokedexRepository {
 
     return pokedexData.map((pokemon) => pokemon.toDomain()).toList();
   }
+
+  @override
+  Future<void> savePokedexData(List<PokedexBusiness> pokemons) async {
+    await pokedexLocalDataSource.savePokedexData(pokemons);
+  }
 }

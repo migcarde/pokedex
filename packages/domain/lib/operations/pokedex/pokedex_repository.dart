@@ -11,4 +11,5 @@ abstract class PokedexRepository {
   Future<PokemonDetailsBusiness> getPokemon(String url);
   Future<PokemonSpecieBusiness> getPokemonSpecie(String url);
   Future<List<PokedexBusiness>> getPokedexData(int limit, int offset);
+  Future<void> savePokedexData(List<PokedexBusiness> pokemons);
 }

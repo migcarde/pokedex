@@ -7,6 +7,7 @@ import 'package:domain/operations/pokedex/get_pokedex_by_url.dart';
 import 'package:domain/operations/pokedex/get_pokedex_from_database.dart';
 import 'package:domain/operations/pokedex/get_pokemon_description.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details.dart';
+import 'package:domain/operations/pokedex/save_pokedex_to_database.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pokedex/base/base_pagination_view_model.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
@@ -20,6 +21,7 @@ class PokedexCubit extends Cubit<PokedexState> {
   final GetPokemonDetails getPokemonDetails;
   final GetPokemonDescription getPokemonDescription;
   final GetPokedexFromDatabase getPokedexFromDatabase;
+  final SavePokedexToDatabase savePokedexToDatabase;
 
   PokedexCubit({
     required this.getPokedex,
@@ -27,6 +29,7 @@ class PokedexCubit extends Cubit<PokedexState> {
     required this.getPokemonDetails,
     required this.getPokemonDescription,
     required this.getPokedexFromDatabase,
+    required this.savePokedexToDatabase,
   }) : super(PokedexInitial());
 
   static const int _defaultOffset = 0;
@@ -35,12 +38,48 @@ class PokedexCubit extends Cubit<PokedexState> {
   void getPokemons(
       {int offset = _defaultOffset, int limit = _defaultLimit}) async {
     try {
-      final params = PaginationParamsBusiness(offset: offset, limit: limit);
-      final response = await getPokedex(params);
+      final pokedexLocalInformation =
+          await _getPokedexDataFromDatabase(limit, offset);
+      if (pokedexLocalInformation.results.isNotEmpty) {
+        emit(PokedexData(data: pokedexLocalInformation));
+      } else {
+        final params = PaginationParamsBusiness(offset: offset, limit: limit);
+        final response = await getPokedex(params);
 
-      final pokedex = await _getPokemonDetails(response.results);
+        final pokedex = await _getPokemonDetails(response.results);
+        final pokedexData =
+            PokedexData(data: response.toViewModel<PokedexViewModel>(pokedex));
+        _savePokemonToDatabase(pokedexData.data.results);
 
-      emit(PokedexData(data: response.toViewModel<PokedexViewModel>(pokedex)));
+        emit(pokedexData);
+      }
+    } catch (e) {
+      emit(const PokedexError(
+          message: 'Opps, something is wrong. Please, try again later'));
+    }
+  }
+
+  void getMorePokemons(BasePaginationViewModel<PokedexViewModel> pokemons,
+      {int offset = _defaultOffset, int limit = _defaultLimit}) async {
+    try {
+      final pokedexLocalInformation =
+          await _getPokedexDataFromDatabase(limit, offset);
+
+      if (pokedexLocalInformation.results.isNotEmpty) {
+        pokedexLocalInformation.results.insertAll(0, pokemons.results);
+        emit(PokedexData(data: pokedexLocalInformation));
+      } else {
+        final params = PaginationParamsBusiness(offset: offset, limit: limit);
+        final response = await getPokedex(params);
+
+        final pokedex = await _getPokemonDetails(response.results);
+        pokemons.results.addAll(pokedex);
+        final pokedexData = PokedexData(
+            data: response.toViewModel<PokedexViewModel>(pokemons.results));
+        _savePokemonToDatabase(pokedex);
+
+        emit(pokedexData);
+      }
     } catch (e) {
       emit(const PokedexError(
           message: 'Opps, something is wrong. Please, try again later'));
@@ -54,9 +93,11 @@ class PokedexCubit extends Cubit<PokedexState> {
 
       final pokedex = await _getPokemonDetails(response.results);
       pokemons.results.addAll(pokedex);
+      final pokedexData = PokedexData(
+          data: response.toViewModel<PokedexViewModel>(pokemons.results));
+      _savePokemonToDatabase(pokedex);
 
-      emit(PokedexData(
-          data: response.toViewModel<PokedexViewModel>(pokemons.results)));
+      emit(pokedexData);
     } catch (e) {
       emit(const PokedexError(
           message: 'Opps, something is wrong. Please, try again later'));
@@ -88,11 +129,19 @@ class PokedexCubit extends Cubit<PokedexState> {
     return result;
   }
 
-  Future<List<PokedexViewModel>> _getPokedexDataFromDatabase(
+  Future<BasePaginationViewModel<PokedexViewModel>> _getPokedexDataFromDatabase(
       int limit, int offset) async {
     final pokedexData = await getPokedexFromDatabase
         .call(PokedexLocalDatabaseParams(limit: limit, offset: offset));
+    final pokemons =
+        pokedexData.map((pokemon) => pokemon.toViewModel()).toList();
 
-    return pokedexData.map((pokemon) => pokemon.toViewModel()).toList();
+    return BasePaginationViewModel<PokedexViewModel>(
+        count: offset + pokemons.length, results: pokemons);
+  }
+
+  Future<void> _savePokemonToDatabase(List<PokedexViewModel> pokemons) async {
+    await savePokedexToDatabase(
+        pokemons.map((pokemon) => pokemon.toBusiness()).toList());
   }
 }

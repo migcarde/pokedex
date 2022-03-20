@@ -20,7 +20,7 @@ class PokedexLocalDataSource {
         .cast<PokedexDataHiveModel>();
   }
 
-  void savePokedexData(List<PokedexBusiness> pokedexData) async {
+  Future<void> savePokedexData(List<PokedexBusiness> pokedexData) async {
     final pokedexDataBox = await hive.openBox(pokedexBox);
     final pokedexDataHiveModel =
         pokedexData.map((pokemonData) => pokemonData.toHiveModel()).toList();
