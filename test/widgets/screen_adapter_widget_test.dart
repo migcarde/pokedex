@@ -21,7 +21,7 @@ void main() {
   );
 
   testWidgets(
-    'Screen adapter widget use mobile screen with 600x600 screen size',
+    'Screen adapter widget use mobile screen with 200x200 screen size',
     ((WidgetTester tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(600, 600);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
@@ -42,10 +42,31 @@ void main() {
   );
 
   testWidgets(
+    'Screen adapter widget use mobile screen with 200x200 screen size with all parameters',
+    ((WidgetTester tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(600, 600);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: ScreenAdapterWidget(
+            mobileScreen: SizedBox(),
+            tabletScreen: CircularProgressIndicator(),
+            desktopScreen: Text('data'),
+          ),
+        ),
+      );
+
+      final mobileScreenFinder = find.byType(SizedBox);
+
+      expect(mobileScreenFinder, findsOneWidget);
+    }),
+  );
+
+  testWidgets(
     'Screen adapter widget use tabletScreen screen with 800x800 screen size',
     ((WidgetTester tester) async {
-      // TODO: Check how to adjust screen size
-      tester.binding.window.physicalSizeTestValue = const Size(2800, 2800);
+      tester.binding.window.physicalSizeTestValue = const Size(2400, 2400);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
 
       await tester.pumpWidget(
@@ -60,6 +81,71 @@ void main() {
       final tabletScreenFinder = find.byType(CircularProgressIndicator);
 
       expect(tabletScreenFinder, findsOneWidget);
+    }),
+  );
+
+  testWidgets(
+    'Screen adapter widget use tabletScreen screen with 800x800 screen size on widget with all parameters',
+    ((WidgetTester tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(2400, 2400);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: ScreenAdapterWidget(
+            mobileScreen: SizedBox(),
+            tabletScreen: CircularProgressIndicator(),
+            desktopScreen: Text('data'),
+          ),
+        ),
+      );
+
+      final tabletScreenFinder = find.byType(CircularProgressIndicator);
+
+      expect(tabletScreenFinder, findsOneWidget);
+    }),
+  );
+
+  testWidgets(
+    'Screen adapter widget use mobile screen with 1333x1333 screen size',
+    ((WidgetTester tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(4000, 4000);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: ScreenAdapterWidget(
+            mobileScreen: SizedBox(),
+            tabletScreen: CircularProgressIndicator(),
+          ),
+        ),
+      );
+
+      final mobileScreenFinder = find.byType(SizedBox);
+
+      expect(mobileScreenFinder, findsOneWidget);
+    }),
+  );
+
+  testWidgets(
+    'Screen adapter widget use desktop screen with 1333x1333 screen size',
+    ((WidgetTester tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(4000, 4000);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: ScreenAdapterWidget(
+            mobileScreen: SizedBox(),
+            tabletScreen: CircularProgressIndicator(),
+            desktopScreen: Text('data'),
+          ),
+        ),
+      );
+
+      final desktopScreenFinder = find.byType(Text);
+
+      expect(desktopScreenFinder, findsOneWidget);
     }),
   );
 }
