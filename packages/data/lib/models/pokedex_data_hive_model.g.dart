@@ -21,13 +21,14 @@ class PokedexDataHiveModelAdapter extends TypeAdapter<PokedexDataHiveModel> {
       picture: fields[1] as String,
       description: fields[2] as String,
       types: (fields[3] as List).cast<String>(),
+      stats: (fields[4] as List).cast<PokemonStatsHiveModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, PokedexDataHiveModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class PokedexDataHiveModelAdapter extends TypeAdapter<PokedexDataHiveModel> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.types);
+      ..write(obj.types)
+      ..writeByte(4)
+      ..write(obj.stats);
   }
 
   @override

@@ -5,22 +5,27 @@ class PokemonDetailsResponse extends Equatable {
   final PokemonSpriteResponse sprite;
   final List<PokemonSlotTypeResponse> slots;
   final PokemonDetailsSpecieResponse specie;
+  final List<PokemonStatsResponse> stats;
 
   const PokemonDetailsResponse({
     required this.sprite,
     required this.slots,
     required this.specie,
+    required this.stats,
   });
 
   factory PokemonDetailsResponse.fromJson(Map<String, dynamic> json) {
     final List<dynamic> slots = json['types'];
+    final List<dynamic> stats = json['stats'];
 
     return PokemonDetailsResponse(
-      sprite: PokemonSpriteResponse.fromJson(json['sprites']),
-      slots:
-          slots.map((slot) => PokemonSlotTypeResponse.fromJson(slot)).toList(),
-      specie: PokemonDetailsSpecieResponse.fromJson(json['species']),
-    );
+        sprite: PokemonSpriteResponse.fromJson(json['sprites']),
+        slots: slots
+            .map((slot) => PokemonSlotTypeResponse.fromJson(slot))
+            .toList(),
+        specie: PokemonDetailsSpecieResponse.fromJson(json['species']),
+        stats:
+            stats.map((stat) => PokemonStatsResponse.fromJson(stat)).toList());
   }
 
   @override
@@ -79,6 +84,51 @@ class PokemonDetailsSpecieResponse extends Equatable {
 
   @override
   List<Object?> get props => [url];
+}
+
+class PokemonStatsResponse extends Equatable {
+  final int baseStat;
+  final int effort;
+  final PokemonStatResponse stat;
+
+  const PokemonStatsResponse({
+    required this.baseStat,
+    required this.effort,
+    required this.stat,
+  });
+
+  factory PokemonStatsResponse.fromJson(Map<String, dynamic> json) =>
+      PokemonStatsResponse(
+        baseStat: json['baseStat'],
+        effort: json['effort'],
+        stat: json['stat'],
+      );
+
+  @override
+  List<Object?> get props => [
+        baseStat,
+        effort,
+        stat,
+      ];
+}
+
+class PokemonStatResponse extends Equatable {
+  final String name;
+  final String url;
+
+  const PokemonStatResponse({
+    required this.name,
+    required this.url,
+  });
+
+  factory PokemonStatResponse.fromJson(Map<String, dynamic> json) =>
+      PokemonStatResponse(
+        name: json['name'],
+        url: json['url'],
+      );
+
+  @override
+  List<Object?> get props => [name, url];
 }
 
 extension PokemonDetailsResponseExtensions on PokemonDetailsResponse {
