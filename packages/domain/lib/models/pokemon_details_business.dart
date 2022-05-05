@@ -1,4 +1,6 @@
-class PokemonDetailsBusiness {
+import 'package:equatable/equatable.dart';
+
+class PokemonDetailsBusiness extends Equatable {
   final PokemonSpriteBusiness sprite;
   final List<PokemonSlotTypeBusiness> slots;
   final PokemonDetailsSpecieBusiness specie;
@@ -8,9 +10,12 @@ class PokemonDetailsBusiness {
     required this.slots,
     required this.specie,
   });
+
+  @override
+  List<Object?> get props => [sprite, slots, specie];
 }
 
-class PokemonSpriteBusiness {
+class PokemonSpriteBusiness extends Equatable {
   final String backDefault;
   final String frontDefault;
 
@@ -18,22 +23,34 @@ class PokemonSpriteBusiness {
     required this.backDefault,
     required this.frontDefault,
   });
+
+  @override
+  List<Object?> get props => [backDefault, frontDefault];
 }
 
-class PokemonSlotTypeBusiness {
+class PokemonSlotTypeBusiness extends Equatable {
   final PokemonTypeBusiness type;
 
   const PokemonSlotTypeBusiness({required this.type});
+
+  @override
+  List<Object?> get props => [type];
 }
 
-class PokemonTypeBusiness {
+class PokemonTypeBusiness extends Equatable {
   final String name;
 
   const PokemonTypeBusiness({required this.name});
+
+  @override
+  List<Object?> get props => [name];
 }
 
-class PokemonDetailsSpecieBusiness {
+class PokemonDetailsSpecieBusiness extends Equatable {
   final String url;
 
   const PokemonDetailsSpecieBusiness({required this.url});
+
+  @override
+  List<Object?> get props => [url];
 }

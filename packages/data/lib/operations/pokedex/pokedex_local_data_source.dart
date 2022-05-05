@@ -3,7 +3,7 @@ import 'package:domain/models/pokedex_business.dart';
 import 'package:hive/hive.dart';
 
 class PokedexLocalDataSource {
-  static const pokedexBox = 'pokedexBox';
+  static const _pokedexBox = 'pokedexBox';
 
   final HiveInterface hive;
 
@@ -11,7 +11,7 @@ class PokedexLocalDataSource {
 
   Future<List<PokedexDataHiveModel>> getPokedexData(
       int limit, int offset) async {
-    final pokedexDataBox = await hive.openBox(pokedexBox);
+    final pokedexDataBox = await hive.openBox(_pokedexBox);
 
     return pokedexDataBox.values
         .skip(offset)
@@ -21,10 +21,10 @@ class PokedexLocalDataSource {
   }
 
   Future<void> savePokedexData(List<PokedexBusiness> pokedexData) async {
-    final pokedexDataBox = await hive.openBox(pokedexBox);
+    final pokedexDataBox = await hive.openBox(_pokedexBox);
     final pokedexDataHiveModel =
         pokedexData.map((pokemonData) => pokemonData.toHiveModel()).toList();
 
-    pokedexDataBox.addAll(pokedexDataHiveModel);
+    await pokedexDataBox.addAll(pokedexDataHiveModel);
   }
 }
