@@ -1,6 +1,7 @@
 import 'package:data/network/repository_failure.dart';
 import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokedex_local_database_params.dart';
+import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:domain/operations/pokedex/get_pokedex_from_database.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -22,10 +23,17 @@ void main() {
 
     const List<PokedexBusiness> _expectedResult = [
       PokedexBusiness(
-          name: 'name',
-          picture: 'picture',
-          description: 'description',
-          types: ['types'])
+        name: 'name',
+        picture: 'picture',
+        description: 'description',
+        types: ['types'],
+        stats: [
+          PokemonStatsBusiness(
+            type: PokemonStatsTypeBusiness.hp,
+            value: 0,
+          ),
+        ],
+      ),
     ];
 
     test('Get pokedex from database - Success', (() async {

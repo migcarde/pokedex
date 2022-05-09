@@ -1,4 +1,5 @@
 import 'package:domain/models/pokemon_details_business.dart';
+import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:equatable/equatable.dart';
 
 class PokemonDetailsResponse extends Equatable {
@@ -99,9 +100,9 @@ class PokemonStatsResponse extends Equatable {
 
   factory PokemonStatsResponse.fromJson(Map<String, dynamic> json) =>
       PokemonStatsResponse(
-        baseStat: json['baseStat'],
+        baseStat: json['base_stat'],
         effort: json['effort'],
-        stat: json['stat'],
+        stat: PokemonStatResponse.fromJson(json['stat']),
       );
 
   @override
@@ -136,6 +137,7 @@ extension PokemonDetailsResponseExtensions on PokemonDetailsResponse {
         sprite: sprite.toDomain(),
         slots: slots.map((slot) => slot.toDomain()).toList(),
         specie: specie.toDomain(),
+        stats: stats.map((e) => e.toBusiness()).toList(),
       );
 }
 
@@ -158,4 +160,28 @@ extension PokemonTypeResponseExtensions on PokemonTypeResponse {
 extension PokemonSpecieResponseExtensions on PokemonDetailsSpecieResponse {
   PokemonDetailsSpecieBusiness toDomain() =>
       PokemonDetailsSpecieBusiness(url: url);
+}
+
+extension PokemonStatsResponseExtensions on PokemonStatsResponse {
+  PokemonStatsBusiness toBusiness() => PokemonStatsBusiness(
+        type: _getType(stat.name),
+        value: baseStat,
+      );
+
+  PokemonStatsTypeBusiness _getType(String type) {
+    switch (type) {
+      case 'hp':
+        return PokemonStatsTypeBusiness.hp;
+      case 'attack':
+        return PokemonStatsTypeBusiness.attack;
+      case 'defense':
+        return PokemonStatsTypeBusiness.defense;
+      case 'special-attack':
+        return PokemonStatsTypeBusiness.specialAttack;
+      case 'special-defense':
+        return PokemonStatsTypeBusiness.specialDefense;
+      default:
+        return PokemonStatsTypeBusiness.speed;
+    }
+  }
 }

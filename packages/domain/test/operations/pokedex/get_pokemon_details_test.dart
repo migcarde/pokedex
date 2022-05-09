@@ -1,5 +1,6 @@
 import 'package:data/network/repository_failure.dart';
 import 'package:domain/models/pokemon_details_business.dart';
+import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -28,12 +29,18 @@ void main() {
       PokemonSlotTypeBusiness(type: PokemonTypeBusiness(name: 'grass')),
       PokemonSlotTypeBusiness(type: PokemonTypeBusiness(name: 'poison')),
     ];
+
+    const _pokemonStats = [
+      PokemonStatsBusiness(type: PokemonStatsTypeBusiness.hp, value: 0),
+      PokemonStatsBusiness(type: PokemonStatsTypeBusiness.attack, value: 1),
+    ];
     const _pokemonSpecie = PokemonDetailsSpecieBusiness(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
     const _expectedResult = PokemonDetailsBusiness(
       sprite: _pokemonExpectedSprite,
       slots: _pokemonSlots,
       specie: _pokemonSpecie,
+      stats: _pokemonStats,
     );
 
     test('Get pokemon details - Success', () async {

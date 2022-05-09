@@ -12,6 +12,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pokedex/base/base_pagination_view_model.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 import 'package:pokedex/common/string_extensions.dart';
+import 'package:pokedex/features/pokedex/pokemon_stats_view_model.dart';
 
 part 'pokedex_state.dart';
 
@@ -123,6 +124,7 @@ class PokedexCubit extends Cubit<PokedexState> {
             .firstWhere((flavor) => flavor.language.name == 'en')
             .text
             .removeJumpLines(),
+        stats: pokemonDetails.stats.map((stat) => stat.toViewModel()).toList(),
       ));
     }
 

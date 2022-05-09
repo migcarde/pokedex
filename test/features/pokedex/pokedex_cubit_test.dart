@@ -62,6 +62,7 @@ void main() {
         picture: 'picture',
         description: 'description',
         types: ['types'],
+        stats: [],
       )
     ]);
     blocTest<PokedexCubit, PokedexState>(
@@ -152,6 +153,7 @@ void main() {
             picture: 'picture',
             description: 'description',
             types: ['types'],
+            stats: [],
           )
         ];
         when(() => _getPokedexFromDatabase.call(_getPokedexFromDatabaseParams))

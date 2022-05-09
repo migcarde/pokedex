@@ -59,7 +59,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: PokedexDesktopCard(
-            pokemon: pokedexViewModelTypesEmpty,
+            pokemon: pokedexViewModelTypesAndStatsEmpty,
           ),
         ),
       );

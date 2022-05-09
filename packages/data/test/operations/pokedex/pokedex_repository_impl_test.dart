@@ -3,6 +3,7 @@ import 'package:data/models/pokedex_data_hive_model.dart';
 import 'package:data/models/pokemon_details_response.dart';
 import 'package:data/models/pokemon_reponse.dart';
 import 'package:data/models/pokemon_specie_response.dart';
+import 'package:data/models/pokemon_stats_hive_model.dart';
 import 'package:data/network/repository_failure.dart';
 import 'package:data/operations/pokedex/pokedex_repository_impl.dart';
 import 'package:domain/models/base_pagination_business.dart';
@@ -150,10 +151,10 @@ void main() {
     const _pokemonSpecie = PokemonDetailsSpecieResponse(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
     const _expectedResponse = PokemonDetailsResponse(
-      sprite: _pokemonExpectedSprite,
-      slots: _pokemonSlots,
-      specie: _pokemonSpecie,
-    );
+        sprite: _pokemonExpectedSprite,
+        slots: _pokemonSlots,
+        specie: _pokemonSpecie,
+        stats: []);
 
     final _expectedResult = _expectedResponse.toDomain();
 
@@ -206,9 +207,12 @@ void main() {
     const _url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
     const _pokemonFlavorEntries = [
       PokemonFlavorEntryResponse(
-          text:
-              'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
-          language: PokemonLanguageResponse(name: 'en')),
+        text:
+            'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
+        language: PokemonLanguageResponse(
+          name: 'en',
+        ),
+      ),
     ];
     const _expectedResponse =
         PokemonSpecieResponse(flavors: _pokemonFlavorEntries);
@@ -240,8 +244,9 @@ void main() {
 
     test('Get pokemon specie - Unauthorized exception', () async {
       // Given
-      when((() => _pokedexRemoteDataSourceMock.getPokemonSpecie(_url)))
-          .thenThrow(Unauthorized());
+      when(
+        (() => _pokedexRemoteDataSourceMock.getPokemonSpecie(_url)),
+      ).thenThrow(Unauthorized());
 
       // Then
       expect(() => _pokedexRepositoryImpl.getPokemonSpecie(_url),
@@ -262,10 +267,17 @@ void main() {
   group('Get pokedex data', (() {
     const List<PokedexDataHiveModel> _expectedResponse = [
       PokedexDataHiveModel(
-          name: 'example',
-          picture: 'picture',
-          description: 'description',
-          types: ['grass'])
+        name: 'example',
+        picture: 'picture',
+        description: 'description',
+        types: ['grass'],
+        stats: [
+          PokemonStatsHiveModel(
+            type: PokemonStatsTypeHiveModel.hp,
+            value: 0,
+          )
+        ],
+      ),
     ];
     const _limit = 1;
     const _offset = 0;
@@ -321,10 +333,12 @@ void main() {
   group('Save pokedex data', (() {
     const List<PokedexBusiness> _pokedexToSave = [
       PokedexBusiness(
-          name: 'name',
-          picture: 'picture',
-          description: 'description',
-          types: ['types'])
+        name: 'name',
+        picture: 'picture',
+        description: 'description',
+        types: ['types'],
+        stats: [],
+      ),
     ];
 
     test('Save pokedex data - Success', (() async {

@@ -27,10 +27,12 @@ void main() {
   group('Get pokedex data', (() {
     const List<PokedexDataHiveModel> _expectedResult = [
       PokedexDataHiveModel(
-          name: 'example',
-          picture: 'picture',
-          description: 'description',
-          types: ['grass'])
+        name: 'example',
+        picture: 'picture',
+        description: 'description',
+        types: ['grass'],
+        stats: [],
+      ),
     ];
     const _limit = 1;
     const _offset = 0;
@@ -56,10 +58,12 @@ void main() {
   group('Save pokedex data', (() {
     const List<PokedexBusiness> _pokedexToSave = [
       PokedexBusiness(
-          name: 'name',
-          picture: 'picture',
-          description: 'description',
-          types: ['types'])
+        name: 'name',
+        picture: 'picture',
+        description: 'description',
+        types: ['types'],
+        stats: [],
+      )
     ];
 
     final List<PokedexDataHiveModel> _pokedexHiveModelToSave =

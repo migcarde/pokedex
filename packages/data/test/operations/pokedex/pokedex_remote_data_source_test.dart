@@ -140,12 +140,23 @@ void main() {
       PokemonSlotTypeResponse(type: PokemonTypeResponse(name: 'grass')),
       PokemonSlotTypeResponse(type: PokemonTypeResponse(name: 'poison')),
     ];
+    const _pokemonStats = [
+      PokemonStatsResponse(
+        baseStat: 45,
+        effort: 0,
+        stat: PokemonStatResponse(
+          name: 'hp',
+          url: 'https://pokeapi.co/api/v2/stat/1/',
+        ),
+      ),
+    ];
     const _pokemonSpecie = PokemonDetailsSpecieResponse(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
     const _pokemonExpectedResult = PokemonDetailsResponse(
       sprite: _pokemonExpectedSprite,
       slots: _pokemonSlots,
       specie: _pokemonSpecie,
+      stats: _pokemonStats,
     );
 
     final _pokemonJsonResponse = jsonDecode('''
@@ -372,46 +383,6 @@ void main() {
                 "name": "hp",
                 "url": "https://pokeapi.co/api/v2/stat/1/"
             }
-        },
-        {
-            "base_stat": 49,
-            "effort": 0,
-            "stat": {
-                "name": "attack",
-                "url": "https://pokeapi.co/api/v2/stat/2/"
-            }
-        },
-        {
-            "base_stat": 49,
-            "effort": 0,
-            "stat": {
-                "name": "defense",
-                "url": "https://pokeapi.co/api/v2/stat/3/"
-            }
-        },
-        {
-            "base_stat": 65,
-            "effort": 1,
-            "stat": {
-                "name": "special-attack",
-                "url": "https://pokeapi.co/api/v2/stat/4/"
-            }
-        },
-        {
-            "base_stat": 65,
-            "effort": 0,
-            "stat": {
-                "name": "special-defense",
-                "url": "https://pokeapi.co/api/v2/stat/5/"
-            }
-        },
-        {
-            "base_stat": 45,
-            "effort": 0,
-            "stat": {
-                "name": "speed",
-                "url": "https://pokeapi.co/api/v2/stat/6/"
-            }
         }
     ],
     "types": [
@@ -482,9 +453,10 @@ void main() {
     const _url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
     const _pokemonFlavorEntries = [
       PokemonFlavorEntryResponse(
-          text:
-              'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
-          language: PokemonLanguageResponse(name: 'en')),
+        text:
+            'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
+        language: PokemonLanguageResponse(name: 'en'),
+      ),
     ];
     const _pokemonSpecieExpectedResult =
         PokemonSpecieResponse(flavors: _pokemonFlavorEntries);

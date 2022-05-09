@@ -62,7 +62,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: PokemonSummary(
-            pokemon: pokedexViewModelTypesEmpty,
+            pokemon: pokedexViewModelTypesAndStatsEmpty,
           ),
         ),
       );
