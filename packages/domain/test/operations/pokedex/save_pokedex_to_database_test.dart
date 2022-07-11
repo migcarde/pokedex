@@ -8,17 +8,17 @@ import 'package:mocktail/mocktail.dart';
 import 'pokedex_repository_mock.dart';
 
 void main() {
-  late PokedexRepositoryMock _pokedexRepositoryMock;
-  late SavePokedexToDatabase _savePokedexToDatabase;
+  late PokedexRepositoryMock pokedexRepositoryMock;
+  late SavePokedexToDatabase savePokedexToDatabase;
 
   setUp((() {
-    _pokedexRepositoryMock = PokedexRepositoryMock();
-    _savePokedexToDatabase =
-        SavePokedexToDatabase(pokedexRepository: _pokedexRepositoryMock);
+    pokedexRepositoryMock = PokedexRepositoryMock();
+    savePokedexToDatabase =
+        SavePokedexToDatabase(pokedexRepository: pokedexRepositoryMock);
   }));
 
   group('Save pokedex to database', (() {
-    const _params = [
+    const params = [
       PokedexBusiness(
         name: 'name',
         picture: 'picture',
@@ -32,44 +32,43 @@ void main() {
 
     test('Save pokedex to database - Success', (() async {
       // Given
-      when(() => _pokedexRepositoryMock.savePokedexData(_params))
+      when(() => pokedexRepositoryMock.savePokedexData(params))
           .thenAnswer((invocation) async => Future<void>);
 
       // Then
-      expect(
-          _savePokedexToDatabase.call(_params), isInstanceOf<Future<void>>());
-      verify(() => _pokedexRepositoryMock.savePokedexData(_params));
-      verifyNoMoreInteractions(_pokedexRepositoryMock);
+      expect(savePokedexToDatabase.call(params), isInstanceOf<Future<void>>());
+      verify(() => pokedexRepositoryMock.savePokedexData(params));
+      verifyNoMoreInteractions(pokedexRepositoryMock);
     }));
 
     test('Save pokedex to database - Repository exception', (() async {
       // Given
-      when(() => _pokedexRepositoryMock.savePokedexData(_params))
+      when(() => pokedexRepositoryMock.savePokedexData(params))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(_savePokedexToDatabase.call(_params),
+      expect(savePokedexToDatabase.call(params),
           throwsA(isInstanceOf<RepositoryException>()));
     }));
 
     test('Save pokedex to database - Unauthorized exception', (() async {
       // Given
-      when(() => _pokedexRepositoryMock.savePokedexData(_params))
+      when(() => pokedexRepositoryMock.savePokedexData(params))
           .thenThrow(Unauthorized());
 
       // Then
-      expect(_savePokedexToDatabase.call(_params),
+      expect(savePokedexToDatabase.call(params),
           throwsA(isInstanceOf<Unauthorized>()));
     }));
 
     test('Save pokedex to database - Unknown exception', (() async {
       // Given
-      when(() => _pokedexRepositoryMock.savePokedexData(_params))
+      when(() => pokedexRepositoryMock.savePokedexData(params))
           .thenThrow(Unknown());
 
       // Then
-      expect(_savePokedexToDatabase.call(_params),
-          throwsA(isInstanceOf<Unknown>()));
+      expect(
+          savePokedexToDatabase.call(params), throwsA(isInstanceOf<Unknown>()));
     }));
   }));
 }

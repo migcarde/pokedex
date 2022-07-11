@@ -1,12 +1,11 @@
 import 'package:data/models/pokemon_stats_hive_model.dart';
 import 'package:domain/models/pokedex_business.dart';
-import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'pokedex_data_hive_model.g.dart';
 
 @HiveType(typeId: 0)
-class PokedexDataHiveModel extends Equatable {
+class PokedexDataHiveModel extends HiveObject {
   @HiveField(0)
   final String name;
 
@@ -22,22 +21,13 @@ class PokedexDataHiveModel extends Equatable {
   @HiveField(4)
   final List<PokemonStatsHiveModel> stats;
 
-  const PokedexDataHiveModel({
+  PokedexDataHiveModel({
     required this.name,
     required this.picture,
     required this.description,
     required this.types,
     required this.stats,
   });
-
-  @override
-  List<Object?> get props => [
-        name,
-        picture,
-        description,
-        types,
-        stats,
-      ];
 }
 
 extension PokedexHiveModelParser on PokedexDataHiveModel {
@@ -49,3 +39,17 @@ extension PokedexHiveModelParser on PokedexDataHiveModel {
         stats: stats.map((stat) => stat.toDomain()).toList(),
       );
 }
+
+// extension PokedexBusinessExtensions on PokedexBusiness {
+//   PokedexDataHiveModel toHiveModel() => PokedexDataHiveModel(
+//         name: name,
+//         picture: picture,
+//         description: description,
+//         types: types,
+//         stats: stats.map((stat) => stat.toHiveModel()).toList(),
+//       );
+// }
+
+// extension ListExtensions<T> on List<T> {
+//   HiveList<T> toHiveList() => HiveList(box)
+// }

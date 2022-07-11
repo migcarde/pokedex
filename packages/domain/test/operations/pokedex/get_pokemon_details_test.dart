@@ -8,84 +8,83 @@ import 'package:mocktail/mocktail.dart';
 import 'pokedex_repository_mock.dart';
 
 void main() {
-  late PokedexRepositoryMock _pokedexRepositoryMock;
-  late GetPokemonDetails _getPokemonDetails;
+  late PokedexRepositoryMock pokedexRepositoryMock;
+  late GetPokemonDetails getPokemonDetails;
 
   setUp(() {
-    _pokedexRepositoryMock = PokedexRepositoryMock();
-    _getPokemonDetails =
-        GetPokemonDetails(pokedexRepository: _pokedexRepositoryMock);
+    pokedexRepositoryMock = PokedexRepositoryMock();
+    getPokemonDetails =
+        GetPokemonDetails(pokedexRepository: pokedexRepositoryMock);
   });
 
   group('Get pokemon details', (() {
-    const _url = 'https://pokeapi.co/api/v2/pokemon/1/';
+    const url = 'https://pokeapi.co/api/v2/pokemon/1/';
 
-    const _pokemonExpectedSprite = PokemonSpriteBusiness(
+    const pokemonExpectedSprite = PokemonSpriteBusiness(
         backDefault:
             'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png',
         frontDefault:
             'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png');
-    const _pokemonSlots = [
+    const pokemonSlots = [
       PokemonSlotTypeBusiness(type: PokemonTypeBusiness(name: 'grass')),
       PokemonSlotTypeBusiness(type: PokemonTypeBusiness(name: 'poison')),
     ];
 
-    const _pokemonStats = [
+    const pokemonStats = [
       PokemonStatsBusiness(type: PokemonStatsTypeBusiness.hp, value: 0),
       PokemonStatsBusiness(type: PokemonStatsTypeBusiness.attack, value: 1),
     ];
-    const _pokemonSpecie = PokemonDetailsSpecieBusiness(
+    const pokemonSpecie = PokemonDetailsSpecieBusiness(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
-    const _expectedResult = PokemonDetailsBusiness(
-      sprite: _pokemonExpectedSprite,
-      slots: _pokemonSlots,
-      specie: _pokemonSpecie,
-      stats: _pokemonStats,
+    const expectedResult = PokemonDetailsBusiness(
+      sprite: pokemonExpectedSprite,
+      slots: pokemonSlots,
+      specie: pokemonSpecie,
+      stats: pokemonStats,
     );
 
     test('Get pokemon details - Success', () async {
       // Given
-      when(() => _pokedexRepositoryMock.getPokemon(_url))
-          .thenAnswer((invocation) async => _expectedResult);
+      when(() => pokedexRepositoryMock.getPokemon(url))
+          .thenAnswer((invocation) async => expectedResult);
 
       // When
-      final result = await _getPokemonDetails.call(_url);
+      final result = await getPokemonDetails.call(url);
 
       // Then
-      expect(result, _expectedResult);
+      expect(result, expectedResult);
       verify(
-        () => _pokedexRepositoryMock.getPokemon(_url),
+        () => pokedexRepositoryMock.getPokemon(url),
       );
-      verifyNoMoreInteractions(_pokedexRepositoryMock);
+      verifyNoMoreInteractions(pokedexRepositoryMock);
     });
 
     test('Get pokemon details - Repository exception', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemon(_url)))
+      when((() => pokedexRepositoryMock.getPokemon(url)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemon(_url),
+      expect(() => pokedexRepositoryMock.getPokemon(url),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokemon details - Unauthorized exception', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemon(_url)))
+      when((() => pokedexRepositoryMock.getPokemon(url)))
           .thenThrow(Unauthorized());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemon(_url),
+      expect(() => pokedexRepositoryMock.getPokemon(url),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokemon details - Unknown expection', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemon(_url)))
-          .thenThrow(Unknown());
+      when((() => pokedexRepositoryMock.getPokemon(url))).thenThrow(Unknown());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemon(_url),
+      expect(() => pokedexRepositoryMock.getPokemon(url),
           throwsA(isInstanceOf<Unknown>()));
     });
   }));

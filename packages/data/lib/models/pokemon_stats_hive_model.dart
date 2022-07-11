@@ -1,15 +1,21 @@
 import 'package:domain/models/pokemon_stats_business.dart';
-import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'pokemon_stats_hive_model.g.dart';
 
+@HiveType(typeId: 2)
 enum PokemonStatsTypeHiveModel {
+  @HiveField(0)
   hp,
+  @HiveField(1)
   attack,
+  @HiveField(2)
   defense,
+  @HiveField(3)
   specialAttack,
+  @HiveField(4)
   specialDefense,
+  @HiveField(5)
   speed,
 }
 
@@ -33,20 +39,17 @@ extension PokemonStatsTypeHiveExtensions on PokemonStatsTypeHiveModel {
 }
 
 @HiveType(typeId: 1)
-class PokemonStatsHiveModel extends Equatable {
+class PokemonStatsHiveModel extends HiveObject {
   @HiveField(0)
   final PokemonStatsTypeHiveModel type;
 
   @HiveField(1)
   final int value;
 
-  const PokemonStatsHiveModel({
+  PokemonStatsHiveModel({
     required this.type,
     required this.value,
   });
-
-  @override
-  List<Object?> get props => [type, value];
 }
 
 extension PokemonStatsTypeModelParser on PokemonStatsHiveModel {

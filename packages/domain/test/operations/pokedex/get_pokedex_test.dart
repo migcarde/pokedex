@@ -9,69 +9,63 @@ import 'package:mocktail/mocktail.dart';
 import 'pokedex_repository_mock.dart';
 
 void main() {
-  late PokedexRepositoryMock _pokedexRepository;
-  late GetPokedex _getPokedex;
+  late PokedexRepositoryMock pokedexRepository;
+  late GetPokedex getPokedex;
 
   setUp((() {
-    _pokedexRepository = PokedexRepositoryMock();
-    _getPokedex = GetPokedex(pokedexRepository: _pokedexRepository);
+    pokedexRepository = PokedexRepositoryMock();
+    getPokedex = GetPokedex(pokedexRepository: pokedexRepository);
   }));
 
   group('Get pokedex call', () {
-    const _params = PaginationParamsBusiness(offset: 0, limit: 1);
+    const params = PaginationParamsBusiness(offset: 0, limit: 1);
 
-    const _expectedResult =
+    const expectedResult =
         BasePaginationBusiness<PokemonBusiness>(count: 0, results: []);
 
     test('Get pokedex - Success', () async {
       // Given
-      when(() => _pokedexRepository.getPokemons(_params.offset, _params.limit))
-          .thenAnswer((invocation) async => _expectedResult);
+      when(() => pokedexRepository.getPokemons(params.offset, params.limit))
+          .thenAnswer((invocation) async => expectedResult);
 
       // When
-      final result = await _getPokedex.call(_params);
+      final result = await getPokedex.call(params);
 
       // Then
-      expect(result, _expectedResult);
+      expect(result, expectedResult);
       verify(
-        () => _pokedexRepository.getPokemons(_params.offset, _params.limit),
+        () => pokedexRepository.getPokemons(params.offset, params.limit),
       );
-      verifyNoMoreInteractions(_pokedexRepository);
+      verifyNoMoreInteractions(pokedexRepository);
     });
 
     test('Get pokedex - Repository exception', () async {
       // Given
-      when((() =>
-              _pokedexRepository.getPokemons(_params.offset, _params.limit)))
+      when((() => pokedexRepository.getPokemons(params.offset, params.limit)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(
-          () => _pokedexRepository.getPokemons(_params.offset, _params.limit),
+      expect(() => pokedexRepository.getPokemons(params.offset, params.limit),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokedex - Unauthorized exception', () async {
       // Given
-      when((() =>
-              _pokedexRepository.getPokemons(_params.offset, _params.limit)))
+      when((() => pokedexRepository.getPokemons(params.offset, params.limit)))
           .thenThrow(Unauthorized());
 
       // Then
-      expect(
-          () => _pokedexRepository.getPokemons(_params.offset, _params.limit),
+      expect(() => pokedexRepository.getPokemons(params.offset, params.limit),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokedex - Unknown expection', () async {
       // Given
-      when((() =>
-              _pokedexRepository.getPokemons(_params.offset, _params.limit)))
+      when((() => pokedexRepository.getPokemons(params.offset, params.limit)))
           .thenThrow(Unknown());
 
       // Then
-      expect(
-          () => _pokedexRepository.getPokemons(_params.offset, _params.limit),
+      expect(() => pokedexRepository.getPokemons(params.offset, params.limit),
           throwsA(isInstanceOf<Unknown>()));
     });
   });

@@ -14,48 +14,48 @@ import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 import 'pokedex_cubit_mocks.dart';
 
 void main() {
-  late MockGetPokedex _getPokedex;
-  late MockGetPokedexByUrl _getPokedexByUrl;
-  late MockGetPokemonDetails _getPokemonDetails;
-  late MockGetPokemonDescription _getPokemonDescription;
-  late MockGetPokedexFromDatabase _getPokedexFromDatabase;
-  late MockSavePokedexToDatabase _savePokedexToDatabase;
-  late PokedexCubit _cubit;
+  late MockGetPokedex getPokedex;
+  late MockGetPokedexByUrl getPokedexByUrl;
+  late MockGetPokemonDetails getPokemonDetails;
+  late MockGetPokemonDescription getPokemonDescription;
+  late MockGetPokedexFromDatabase getPokedexFromDatabase;
+  late MockSavePokedexToDatabase savePokedexToDatabase;
+  late PokedexCubit cubit;
 
   setUp((() {
-    _getPokedex = MockGetPokedex();
-    _getPokedexByUrl = MockGetPokedexByUrl();
-    _getPokemonDetails = MockGetPokemonDetails();
-    _getPokemonDescription = MockGetPokemonDescription();
-    _getPokedexFromDatabase = MockGetPokedexFromDatabase();
-    _savePokedexToDatabase = MockSavePokedexToDatabase();
-    _cubit = PokedexCubit(
-      getPokedex: _getPokedex,
-      getPokedexByUrl: _getPokedexByUrl,
-      getPokemonDetails: _getPokemonDetails,
-      getPokemonDescription: _getPokemonDescription,
-      getPokedexFromDatabase: _getPokedexFromDatabase,
-      savePokedexToDatabase: _savePokedexToDatabase,
+    getPokedex = MockGetPokedex();
+    getPokedexByUrl = MockGetPokedexByUrl();
+    getPokemonDetails = MockGetPokemonDetails();
+    getPokemonDescription = MockGetPokemonDescription();
+    getPokedexFromDatabase = MockGetPokedexFromDatabase();
+    savePokedexToDatabase = MockSavePokedexToDatabase();
+    cubit = PokedexCubit(
+      getPokedex: getPokedex,
+      getPokedexByUrl: getPokedexByUrl,
+      getPokemonDetails: getPokemonDetails,
+      getPokemonDescription: getPokemonDescription,
+      getPokedexFromDatabase: getPokedexFromDatabase,
+      savePokedexToDatabase: savePokedexToDatabase,
     );
   }));
 
   tearDown((() {
-    _cubit.close();
+    cubit.close();
   }));
 
   blocTest<PokedexCubit, PokedexState>(
     'emits [] when nothing is called.',
-    build: () => _cubit,
+    build: () => cubit,
     expect: () => [],
   );
 
   group('Get pokemons', (() {
-    const _getPokedexFromDatabaseParams =
+    const getPokedexFromDatabaseParams =
         PokedexLocalDatabaseParams(limit: 1, offset: 0);
-    const _getPokedexParams = PaginationParamsBusiness(offset: 0, limit: 1);
-    const _expectedEmptyResult =
+    const getPokedexParams = PaginationParamsBusiness(offset: 0, limit: 1);
+    const expectedEmptyResult =
         BasePaginationViewModel<PokedexViewModel>(count: 0, results: []);
-    const _expectedDataResult =
+    const expectedDataResult =
         BasePaginationViewModel<PokedexViewModel>(count: 1, results: [
       PokedexViewModel(
         name: 'name',
@@ -68,34 +68,34 @@ void main() {
     blocTest<PokedexCubit, PokedexState>(
       'emits [PokedexData] when getPokedex is called with empty local database.',
       build: () {
-        const List<PokedexBusiness> _expectedLocalDatabaseResponse = [];
-        const _expectedRemoteResult =
+        const List<PokedexBusiness> expectedLocalDatabaseResponse = [];
+        const expectedRemoteResult =
             BasePaginationBusiness<PokemonBusiness>(count: 0, results: []);
-        when(() => _getPokedexFromDatabase.call(_getPokedexFromDatabaseParams))
-            .thenAnswer((invocation) async => _expectedLocalDatabaseResponse);
-        when(() => _getPokedex(_getPokedexParams))
-            .thenAnswer((invocation) async => _expectedRemoteResult);
-        when(() => _savePokedexToDatabase(_expectedLocalDatabaseResponse))
+        when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
+            .thenAnswer((invocation) async => expectedLocalDatabaseResponse);
+        when(() => getPokedex(getPokedexParams))
+            .thenAnswer((invocation) async => expectedRemoteResult);
+        when(() => savePokedexToDatabase(expectedLocalDatabaseResponse))
             .thenAnswer((invocation) async => Future<void>);
 
-        return _cubit;
+        return cubit;
       },
       act: (PokedexCubit cubit) => cubit.getPokemons(offset: 0, limit: 1),
-      expect: () => const [PokedexData(data: _expectedEmptyResult)],
+      expect: () => const [PokedexData(data: expectedEmptyResult)],
     );
 
     blocTest<PokedexCubit, PokedexState>(
       'emits [PokedexError] when getPokedex throws Repository exception.',
       build: () {
-        const List<PokedexBusiness> _expectedLocalDatabaseResponse = [];
-        when(() => _getPokedexFromDatabase.call(_getPokedexFromDatabaseParams))
-            .thenAnswer((invocation) async => _expectedLocalDatabaseResponse);
-        when(() => _getPokedex(_getPokedexParams))
+        const List<PokedexBusiness> expectedLocalDatabaseResponse = [];
+        when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
+            .thenAnswer((invocation) async => expectedLocalDatabaseResponse);
+        when(() => getPokedex(getPokedexParams))
             .thenThrow((invocation) async => RepositoryException());
-        when(() => _savePokedexToDatabase(_expectedLocalDatabaseResponse))
+        when(() => savePokedexToDatabase(expectedLocalDatabaseResponse))
             .thenAnswer((invocation) async => Future<void>);
 
-        return _cubit;
+        return cubit;
       },
       act: (PokedexCubit cubit) => cubit.getPokemons(offset: 0, limit: 1),
       expect: () => const [
@@ -107,15 +107,15 @@ void main() {
     blocTest<PokedexCubit, PokedexState>(
       'emits [PokedexError] when getPokedex throws Unauthorized exception.',
       build: () {
-        const List<PokedexBusiness> _expectedLocalDatabaseResponse = [];
-        when(() => _getPokedexFromDatabase.call(_getPokedexFromDatabaseParams))
-            .thenAnswer((invocation) async => _expectedLocalDatabaseResponse);
-        when(() => _getPokedex(_getPokedexParams))
+        const List<PokedexBusiness> expectedLocalDatabaseResponse = [];
+        when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
+            .thenAnswer((invocation) async => expectedLocalDatabaseResponse);
+        when(() => getPokedex(getPokedexParams))
             .thenThrow((invocation) async => Unauthorized());
-        when(() => _savePokedexToDatabase(_expectedLocalDatabaseResponse))
+        when(() => savePokedexToDatabase(expectedLocalDatabaseResponse))
             .thenAnswer((invocation) async => Future<void>);
 
-        return _cubit;
+        return cubit;
       },
       act: (PokedexCubit cubit) => cubit.getPokemons(offset: 0, limit: 1),
       expect: () => const [
@@ -127,15 +127,15 @@ void main() {
     blocTest<PokedexCubit, PokedexState>(
       'emits [PokedexError] when getPokedex throws Unknown exception.',
       build: () {
-        const List<PokedexBusiness> _expectedLocalDatabaseResponse = [];
-        when(() => _getPokedexFromDatabase.call(_getPokedexFromDatabaseParams))
-            .thenAnswer((invocation) async => _expectedLocalDatabaseResponse);
-        when(() => _getPokedex(_getPokedexParams))
+        const List<PokedexBusiness> expectedLocalDatabaseResponse = [];
+        when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
+            .thenAnswer((invocation) async => expectedLocalDatabaseResponse);
+        when(() => getPokedex(getPokedexParams))
             .thenThrow((invocation) async => Unauthorized());
-        when(() => _savePokedexToDatabase(_expectedLocalDatabaseResponse))
+        when(() => savePokedexToDatabase(expectedLocalDatabaseResponse))
             .thenAnswer((invocation) async => Future<void>);
 
-        return _cubit;
+        return cubit;
       },
       act: (PokedexCubit cubit) => cubit.getPokemons(offset: 0, limit: 1),
       expect: () => const [
@@ -147,7 +147,7 @@ void main() {
     blocTest<PokedexCubit, PokedexState>(
       'emits [PokedexData] when getPokedex is called with data in local database.',
       build: () {
-        const List<PokedexBusiness> _expectedLocalDatabaseResponse = [
+        const List<PokedexBusiness> expectedLocalDatabaseResponse = [
           PokedexBusiness(
             name: 'name',
             picture: 'picture',
@@ -156,13 +156,13 @@ void main() {
             stats: [],
           )
         ];
-        when(() => _getPokedexFromDatabase.call(_getPokedexFromDatabaseParams))
-            .thenAnswer((invocation) async => _expectedLocalDatabaseResponse);
+        when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
+            .thenAnswer((invocation) async => expectedLocalDatabaseResponse);
 
-        return _cubit;
+        return cubit;
       },
       act: (PokedexCubit cubit) => cubit.getPokemons(offset: 0, limit: 1),
-      expect: () => const [PokedexData(data: _expectedDataResult)],
+      expect: () => const [PokedexData(data: expectedDataResult)],
     );
   }));
 }

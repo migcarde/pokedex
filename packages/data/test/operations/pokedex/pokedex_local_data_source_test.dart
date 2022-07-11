@@ -10,22 +10,22 @@ import 'package:mocktail/mocktail.dart';
 import 'pokedex_local_data_source_mocks.dart';
 
 void main() {
-  late BoxMock _boxMock;
-  late HiveInterfaceMock _hiveInterfaceMock;
-  late PokedexLocalDataSource _pokedexLocalDataSource;
+  late BoxMock boxMock;
+  late HiveInterfaceMock hiveInterfaceMock;
+  late PokedexLocalDataSource pokedexLocalDataSource;
 
-  const _box = 'pokedexBox';
+  const box = 'pokedexBox';
 
   setUp(() {
     final path = Directory.current.path;
     Hive.init(path);
-    _boxMock = BoxMock();
-    _hiveInterfaceMock = HiveInterfaceMock();
-    _pokedexLocalDataSource = PokedexLocalDataSource(hive: _hiveInterfaceMock);
+    boxMock = BoxMock();
+    hiveInterfaceMock = HiveInterfaceMock();
+    pokedexLocalDataSource = PokedexLocalDataSource(hive: hiveInterfaceMock);
   });
 
   group('Get pokedex data', (() {
-    const List<PokedexDataHiveModel> _expectedResult = [
+    List<PokedexDataHiveModel> expectedResult = [
       PokedexDataHiveModel(
         name: 'example',
         picture: 'picture',
@@ -34,29 +34,27 @@ void main() {
         stats: [],
       ),
     ];
-    const _limit = 1;
-    const _offset = 0;
+    const limit = 1;
+    const offset = 0;
 
     test('Get pokedex data - Success', (() async {
       // Given
-      when(() => _hiveInterfaceMock.openBox(_box))
-          .thenAnswer((invocation) async => _boxMock);
-      when(() => _boxMock.values)
-          .thenAnswer((realInvocation) => _expectedResult);
+      when(() => hiveInterfaceMock.openBox(box))
+          .thenAnswer((invocation) async => boxMock);
+      when(() => boxMock.values).thenAnswer((realInvocation) => expectedResult);
 
       // When
-      final result =
-          await _pokedexLocalDataSource.getPokedexData(_limit, _offset);
+      final result = await pokedexLocalDataSource.getPokedexData(limit, offset);
 
       // Then
-      expect(result, _expectedResult);
-      verify((() => _hiveInterfaceMock.openBox(_box)));
-      verify((() => _boxMock.values));
+      expect(result, expectedResult);
+      verify((() => hiveInterfaceMock.openBox(box)));
+      verify((() => boxMock.values));
     }));
   }));
 
   group('Save pokedex data', (() {
-    const List<PokedexBusiness> _pokedexToSave = [
+    const List<PokedexBusiness> pokedexToSave = [
       PokedexBusiness(
         name: 'name',
         picture: 'picture',
@@ -66,18 +64,18 @@ void main() {
       )
     ];
 
-    final List<PokedexDataHiveModel> _pokedexHiveModelToSave =
-        _pokedexToSave.map((e) => e.toHiveModel()).toList();
+    final List<PokedexDataHiveModel> pokedexHiveModelToSave =
+        pokedexToSave.map((e) => e.toHiveModel()).toList();
     test('Save pokedex data - Success', () async {
       // Given
-      when(() => _hiveInterfaceMock.openBox(_box))
-          .thenAnswer((invocation) async => _boxMock);
+      when(() => hiveInterfaceMock.openBox(box))
+          .thenAnswer((invocation) async => boxMock);
 
-      when(() => _boxMock.addAll(_pokedexHiveModelToSave))
+      when(() => boxMock.addAll(pokedexHiveModelToSave))
           .thenAnswer((invocation) async => const Iterable<int>.empty());
 
       // Then
-      expect(_pokedexLocalDataSource.savePokedexData(_pokedexToSave),
+      expect(pokedexLocalDataSource.savePokedexData(pokedexToSave),
           isInstanceOf<Future<void>>());
     });
   }));

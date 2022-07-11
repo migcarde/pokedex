@@ -42,3 +42,63 @@ class PokemonStatsHiveModelAdapter extends TypeAdapter<PokemonStatsHiveModel> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class PokemonStatsTypeHiveModelAdapter
+    extends TypeAdapter<PokemonStatsTypeHiveModel> {
+  @override
+  final int typeId = 2;
+
+  @override
+  PokemonStatsTypeHiveModel read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return PokemonStatsTypeHiveModel.hp;
+      case 1:
+        return PokemonStatsTypeHiveModel.attack;
+      case 2:
+        return PokemonStatsTypeHiveModel.defense;
+      case 3:
+        return PokemonStatsTypeHiveModel.specialAttack;
+      case 4:
+        return PokemonStatsTypeHiveModel.specialDefense;
+      case 5:
+        return PokemonStatsTypeHiveModel.speed;
+      default:
+        return PokemonStatsTypeHiveModel.hp;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, PokemonStatsTypeHiveModel obj) {
+    switch (obj) {
+      case PokemonStatsTypeHiveModel.hp:
+        writer.writeByte(0);
+        break;
+      case PokemonStatsTypeHiveModel.attack:
+        writer.writeByte(1);
+        break;
+      case PokemonStatsTypeHiveModel.defense:
+        writer.writeByte(2);
+        break;
+      case PokemonStatsTypeHiveModel.specialAttack:
+        writer.writeByte(3);
+        break;
+      case PokemonStatsTypeHiveModel.specialDefense:
+        writer.writeByte(4);
+        break;
+      case PokemonStatsTypeHiveModel.speed:
+        writer.writeByte(5);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PokemonStatsTypeHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

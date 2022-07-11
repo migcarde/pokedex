@@ -139,11 +139,14 @@ class PokedexCubit extends Cubit<PokedexState> {
         pokedexData.map((pokemon) => pokemon.toViewModel()).toList();
 
     return BasePaginationViewModel<PokedexViewModel>(
-        count: offset + pokemons.length, results: pokemons);
+      count: offset + pokemons.length,
+      results: pokemons,
+    );
   }
 
   Future<void> _savePokemonToDatabase(List<PokedexViewModel> pokemons) async {
     await savePokedexToDatabase(
-        pokemons.map((pokemon) => pokemon.toBusiness()).toList());
+      pokemons.map((pokemon) => pokemon.toBusiness()).toList(),
+    );
   }
 }

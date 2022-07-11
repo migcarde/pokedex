@@ -8,64 +8,63 @@ import 'package:mocktail/mocktail.dart';
 import 'pokedex_repository_mock.dart';
 
 void main() {
-  late PokedexRepositoryMock _pokedexRepositoryMock;
-  late GetPokedexByUrl _getPokedexByUrl;
+  late PokedexRepositoryMock pokedexRepositoryMock;
+  late GetPokedexByUrl getPokedexByUrl;
 
   setUp(() {
-    _pokedexRepositoryMock = PokedexRepositoryMock();
-    _getPokedexByUrl =
-        GetPokedexByUrl(pokedexRepository: _pokedexRepositoryMock);
+    pokedexRepositoryMock = PokedexRepositoryMock();
+    getPokedexByUrl = GetPokedexByUrl(pokedexRepository: pokedexRepositoryMock);
   });
 
   group('Get pokedex by url', (() {
-    const _url = 'www.example.com';
+    const url = 'www.example.com';
 
-    const _expectedResult =
+    const expectedResult =
         BasePaginationBusiness<PokemonBusiness>(count: 0, results: []);
 
     test('Get pokedex by url - Success', () async {
       // Given
-      when(() => _pokedexRepositoryMock.getPokemonsByUrl(_url))
-          .thenAnswer((invocation) async => _expectedResult);
+      when(() => pokedexRepositoryMock.getPokemonsByUrl(url))
+          .thenAnswer((invocation) async => expectedResult);
 
       // When
-      final result = await _getPokedexByUrl.call(_url);
+      final result = await getPokedexByUrl.call(url);
 
       // Then
-      expect(result, _expectedResult);
+      expect(result, expectedResult);
       verify(
-        () => _pokedexRepositoryMock.getPokemonsByUrl(_url),
+        () => pokedexRepositoryMock.getPokemonsByUrl(url),
       );
-      verifyNoMoreInteractions(_pokedexRepositoryMock);
+      verifyNoMoreInteractions(pokedexRepositoryMock);
     });
 
     test('Get pokedex by url - Repository exception', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemonsByUrl(_url)))
+      when((() => pokedexRepositoryMock.getPokemonsByUrl(url)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemonsByUrl(_url),
+      expect(() => pokedexRepositoryMock.getPokemonsByUrl(url),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokedex by url - Unauthorized exception', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemonsByUrl(_url)))
+      when((() => pokedexRepositoryMock.getPokemonsByUrl(url)))
           .thenThrow(Unauthorized());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemonsByUrl(_url),
+      expect(() => pokedexRepositoryMock.getPokemonsByUrl(url),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokedex by url - Unknown expection', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemonsByUrl(_url)))
+      when((() => pokedexRepositoryMock.getPokemonsByUrl(url)))
           .thenThrow(Unknown());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemonsByUrl(_url),
+      expect(() => pokedexRepositoryMock.getPokemonsByUrl(url),
           throwsA(isInstanceOf<Unknown>()));
     });
   }));
