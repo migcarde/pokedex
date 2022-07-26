@@ -6,7 +6,7 @@ class BoxDecorationStyles {
   static const double _boxOpacity = 0.4;
 
   static BoxDecoration crystal({
-    Color color = _color,
+    Color? color = _color,
     double boxOpacity = _boxOpacity,
     double borderRadius = Dimens.mediumDimen,
   }) =>
@@ -14,6 +14,6 @@ class BoxDecorationStyles {
         borderRadius: BorderRadius.all(
           Radius.circular(borderRadius),
         ),
-        color: color.withOpacity(boxOpacity),
+        color: color?.withOpacity(boxOpacity),
       );
 }

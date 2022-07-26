@@ -37,8 +37,8 @@ void main() {
       final pokemonNameFinder = find.text('Name');
       final pokemonDescriptionFinder = find.text('Description');
       final pokemonTypeObjectFinder = find.byType(PokemonType);
-      final pokemonTypeFinder = find.text('types');
-      final pokemonTypeSecondFinder = find.text('example');
+      final pokemonTypeFinder = find.text('Bug');
+      final pokemonTypeSecondFinder = find.text('Dragon');
 
       // Pokemon display widget finder
       final pokemonDisplayWidgetFinder = find.byType(PokemonDisplay);

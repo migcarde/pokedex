@@ -30,7 +30,7 @@ void main() {
       final pokemonNameFinder = find.text('Name');
       final pokemonDescripitonFinder = find.text('Description');
       final pokemonTypesFinder = find.byType(PokemonType);
-      final pokemonTypesNameFinder = find.text('types');
+      final pokemonTypesNameFinder = find.text('Bug');
 
       // Pokemon display widget finders
       final pokemonDisplayFinder = find.byType(PokemonDisplay);
@@ -110,8 +110,8 @@ void main() {
       final pokemonNameFinder = find.text('Name');
       final pokemonDescripitonFinder = find.text('Description');
       final pokemonTypesFinder = find.byType(PokemonType);
-      final pokemonTypesNameTypesFinder = find.text('types');
-      final pokemonTypesNameExampleFinder = find.text('example');
+      final pokemonTypesNameTypesFinder = find.text('Bug');
+      final pokemonTypesNameExampleFinder = find.text('Dragon');
 
       // Pokemon display widget finders
       final pokemonDisplayFinder = find.byType(PokemonDisplay);

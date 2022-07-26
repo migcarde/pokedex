@@ -21,7 +21,7 @@ void main() {
       final pokemonNameFinder = find.text('Name');
       final pokemonDescriptionFinder = find.text('Description');
       final pokemonTypeObjectFinder = find.byType(PokemonType);
-      final pokemonTypeFinder = find.text('types');
+      final pokemonTypeFinder = find.text('Bug');
 
       expect(pokemonNameFinder, findsOneWidget);
       expect(pokemonDescriptionFinder, findsOneWidget);
@@ -45,8 +45,8 @@ void main() {
       final pokemonNameFinder = find.text('Name');
       final pokemonDescriptionFinder = find.text('Description');
       final pokemonTypeObjectFinder = find.byType(PokemonType);
-      final pokemonTypeFinder = find.text('types');
-      final pokemonTypeSecondFinder = find.text('example');
+      final pokemonTypeFinder = find.text('Bug');
+      final pokemonTypeSecondFinder = find.text('Dragon');
 
       expect(pokemonNameFinder, findsOneWidget);
       expect(pokemonDescriptionFinder, findsOneWidget);
@@ -93,7 +93,7 @@ void main() {
       final pokemonNameFinder = find.text('name');
       final pokemonDescriptionFinder = find.text('description');
       final pokemonTypeObjectFinder = find.byType(PokemonType);
-      final pokemonTypeFinder = find.text('types');
+      final pokemonTypeFinder = find.text('Bug');
 
       expect(pokemonNameFinder, findsNothing);
       expect(pokemonDescriptionFinder, findsNothing);

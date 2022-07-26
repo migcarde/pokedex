@@ -1,3 +1,4 @@
+import 'package:pokedex/common/pokemon_types.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 
 import 'pokemon_stats_type_mock.dart';
@@ -7,7 +8,7 @@ const pokedexViewModelComplete = PokedexViewModel(
   picture:
       'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
   description: 'description',
-  types: ['types'],
+  types: [PokemonTypes.bug],
   stats: pokemonStatsViewModelList,
 );
 
@@ -25,7 +26,7 @@ const pokedexViewModelCompleteTwoTags = PokedexViewModel(
   picture:
       'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
   description: 'description',
-  types: ['types', 'example'],
+  types: [PokemonTypes.bug, PokemonTypes.dragon],
   stats: [],
 );
 

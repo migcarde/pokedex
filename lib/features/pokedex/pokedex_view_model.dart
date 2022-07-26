@@ -2,13 +2,15 @@ import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pokedex/common/pokemon_types.dart';
+import 'package:pokedex/common/string_extensions.dart';
 import 'package:pokedex/features/pokedex/pokemon_stats_view_model.dart';
 
 class PokedexViewModel extends Equatable {
   final String name;
   final String picture;
   final String description;
-  final List<String> types;
+  final List<PokemonTypes> types;
   final List<PokemonStatsViewModel> stats;
 
   const PokedexViewModel({
@@ -31,10 +33,10 @@ extension PokedexViewModelBusinessExtension on PokemonBusiness {
     List<PokemonStatsBusiness> stats,
   ) =>
       PokedexViewModel(
-          name: name,
+          name: name.capitalize(),
           picture: picture,
-          description: description,
-          types: types,
+          description: description.capitalize(),
+          types: types.map((type) => type.getType()).toList(),
           stats: stats.map((stat) => stat.toViewModel()).toList());
 }
 
@@ -43,7 +45,7 @@ extension PokedexViewModelLocalDatabaseExtensions on PokedexBusiness {
       name: name,
       picture: picture,
       description: description,
-      types: types,
+      types: types.map((type) => type.getType()).toList(),
       stats: stats.map((stat) => stat.toViewModel()).toList());
 }
 
@@ -52,7 +54,7 @@ extension PokedexViewModelExtensions on PokedexViewModel {
         name: name,
         picture: picture,
         description: description,
-        types: types,
+        types: types.map((type) => type.name).toList(),
         stats: stats.map((stat) => stat.toBusiness()).toList(),
       );
 }

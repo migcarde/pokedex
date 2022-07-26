@@ -8,6 +8,7 @@ import 'package:domain/models/pokemon_business.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pokedex/base/base_pagination_view_model.dart';
+import 'package:pokedex/common/pokemon_types.dart';
 import 'package:pokedex/features/pokedex/cubit/pokedex_cubit.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 
@@ -61,7 +62,7 @@ void main() {
         name: 'name',
         picture: 'picture',
         description: 'description',
-        types: ['types'],
+        types: [PokemonTypes.bug],
         stats: [],
       )
     ]);

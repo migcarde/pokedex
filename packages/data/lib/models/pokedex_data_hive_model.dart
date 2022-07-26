@@ -39,17 +39,3 @@ extension PokedexHiveModelParser on PokedexDataHiveModel {
         stats: stats.map((stat) => stat.toDomain()).toList(),
       );
 }
-
-// extension PokedexBusinessExtensions on PokedexBusiness {
-//   PokedexDataHiveModel toHiveModel() => PokedexDataHiveModel(
-//         name: name,
-//         picture: picture,
-//         description: description,
-//         types: types,
-//         stats: stats.map((stat) => stat.toHiveModel()).toList(),
-//       );
-// }
-
-// extension ListExtensions<T> on List<T> {
-//   HiveList<T> toHiveList() => HiveList(box)
-// }
