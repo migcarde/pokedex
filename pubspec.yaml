@@ -17,6 +17,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
   bloc: ^8.0.3
+  flutter_svg: ^1.1.1+1
 
   # Internal packages
   data:
@@ -36,3 +37,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/icons/

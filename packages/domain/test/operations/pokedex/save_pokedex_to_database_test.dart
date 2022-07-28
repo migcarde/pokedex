@@ -27,6 +27,8 @@ void main() {
         stats: [
           PokemonStatsBusiness(type: PokemonStatsTypeBusiness.hp, value: 0),
         ],
+        pokemonForm: 'pokemon form',
+        evolutionChain: 'evolution chain',
       ),
     ];
 

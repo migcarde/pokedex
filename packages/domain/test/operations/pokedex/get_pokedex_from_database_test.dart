@@ -33,6 +33,8 @@ void main() {
             value: 0,
           ),
         ],
+        evolutionChain: 'evolution chain',
+        pokemonForm: 'pokemon form',
       ),
     ];
 

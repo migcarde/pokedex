@@ -21,12 +21,20 @@ class PokedexDataHiveModel extends HiveObject {
   @HiveField(4)
   final List<PokemonStatsHiveModel> stats;
 
+  @HiveField(5)
+  final String evolutionChain;
+
+  @HiveField(6)
+  final String pokemonForm;
+
   PokedexDataHiveModel({
     required this.name,
     required this.picture,
     required this.description,
     required this.types,
     required this.stats,
+    required this.evolutionChain,
+    required this.pokemonForm,
   });
 }
 
@@ -37,5 +45,7 @@ extension PokedexHiveModelParser on PokedexDataHiveModel {
         description: description,
         types: types,
         stats: stats.map((stat) => stat.toDomain()).toList(),
+        evolutionChain: evolutionChain,
+        pokemonForm: pokemonForm,
       );
 }

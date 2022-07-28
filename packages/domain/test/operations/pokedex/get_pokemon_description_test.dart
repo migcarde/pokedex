@@ -24,7 +24,10 @@ void main() {
               'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
           language: PokemonLanguageBusiness(name: 'en')),
     ];
-    const expectedResult = PokemonSpecieBusiness(flavors: pokemonFlavorEntries);
+    const expectedResult = PokemonSpecieBusiness(
+      flavors: pokemonFlavorEntries,
+      evolutionChain: 'evolution chain',
+    );
 
     test('Get pokemon description - Success', () async {
       // Given

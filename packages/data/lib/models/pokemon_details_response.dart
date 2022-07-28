@@ -7,26 +7,29 @@ class PokemonDetailsResponse extends Equatable {
   final List<PokemonSlotTypeResponse> slots;
   final PokemonDetailsSpecieResponse specie;
   final List<PokemonStatsResponse> stats;
+  final List<PokemonFormResponse> forms;
 
   const PokemonDetailsResponse({
     required this.sprite,
     required this.slots,
     required this.specie,
     required this.stats,
+    required this.forms,
   });
 
   factory PokemonDetailsResponse.fromJson(Map<String, dynamic> json) {
     final List<dynamic> slots = json['types'];
     final List<dynamic> stats = json['stats'];
+    final List<dynamic> forms = json['forms'];
 
     return PokemonDetailsResponse(
-        sprite: PokemonSpriteResponse.fromJson(json['sprites']),
-        slots: slots
-            .map((slot) => PokemonSlotTypeResponse.fromJson(slot))
-            .toList(),
-        specie: PokemonDetailsSpecieResponse.fromJson(json['species']),
-        stats:
-            stats.map((stat) => PokemonStatsResponse.fromJson(stat)).toList());
+      sprite: PokemonSpriteResponse.fromJson(json['sprites']),
+      slots:
+          slots.map((slot) => PokemonSlotTypeResponse.fromJson(slot)).toList(),
+      specie: PokemonDetailsSpecieResponse.fromJson(json['species']),
+      stats: stats.map((stat) => PokemonStatsResponse.fromJson(stat)).toList(),
+      forms: forms.map((form) => PokemonFormResponse.fromJson(form)).toList(),
+    );
   }
 
   @override
@@ -132,12 +135,32 @@ class PokemonStatResponse extends Equatable {
   List<Object?> get props => [name, url];
 }
 
+class PokemonFormResponse extends Equatable {
+  final String name;
+  final String url;
+
+  const PokemonFormResponse({
+    required this.name,
+    required this.url,
+  });
+
+  @override
+  List<Object?> get props => [name, url];
+
+  factory PokemonFormResponse.fromJson(Map<String, dynamic> json) =>
+      PokemonFormResponse(
+        name: json['name'],
+        url: json['url'],
+      );
+}
+
 extension PokemonDetailsResponseExtensions on PokemonDetailsResponse {
   PokemonDetailsBusiness toDomain() => PokemonDetailsBusiness(
         sprite: sprite.toDomain(),
         slots: slots.map((slot) => slot.toDomain()).toList(),
         specie: specie.toDomain(),
         stats: stats.map((e) => e.toBusiness()).toList(),
+        pokemonForm: forms.map((form) => form.toBusiness()).toList(),
       );
 }
 
@@ -184,4 +207,11 @@ extension PokemonStatsResponseExtensions on PokemonStatsResponse {
         return PokemonStatsTypeBusiness.speed;
     }
   }
+}
+
+extension PokemonFormResponseExtensions on PokemonFormResponse {
+  PokemonFormBusiness toBusiness() => PokemonFormBusiness(
+        name: name,
+        url: url,
+      );
 }

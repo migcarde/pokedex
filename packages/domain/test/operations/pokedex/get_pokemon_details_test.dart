@@ -36,11 +36,15 @@ void main() {
     ];
     const pokemonSpecie = PokemonDetailsSpecieBusiness(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
+    const pokemonForms = [
+      PokemonFormBusiness(name: 'name', url: 'url'),
+    ];
     const expectedResult = PokemonDetailsBusiness(
       sprite: pokemonExpectedSprite,
       slots: pokemonSlots,
       specie: pokemonSpecie,
       stats: pokemonStats,
+      pokemonForm: pokemonForms,
     );
 
     test('Get pokemon details - Success', () async {

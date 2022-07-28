@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:data/models/base_pagination_response.dart';
+import 'package:data/models/base_url_response.dart';
 import 'package:data/models/pokemon_details_response.dart';
 import 'package:data/models/pokemon_reponse.dart';
 import 'package:data/models/pokemon_specie_response.dart';
@@ -150,11 +151,15 @@ void main() {
     ];
     const pokemonSpecie = PokemonDetailsSpecieResponse(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
+    const pokemonForms = [
+      PokemonFormResponse(name: 'name', url: 'url'),
+    ];
     const pokemonExpectedResult = PokemonDetailsResponse(
       sprite: pokemonExpectedSprite,
       slots: pokemonSlots,
       specie: pokemonSpecie,
       stats: pokemonStats,
+      forms: pokemonForms,
     );
 
     final pokemonJsonResponse = jsonDecode('''
@@ -456,8 +461,12 @@ void main() {
         language: PokemonLanguageResponse(name: 'en'),
       ),
     ];
-    const pokemonSpecieExpectedResult =
-        PokemonSpecieResponse(flavors: pokemonFlavorEntries);
+    const evolutionChain =
+        BaseUrlResponse(url: 'https://pokeapi.co/api/v2/evolution-chain/1/');
+    const pokemonSpecieExpectedResult = PokemonSpecieResponse(
+      flavors: pokemonFlavorEntries,
+      evolutionChain: evolutionChain,
+    );
     final jsonResponse = jsonDecode('''
 {
     "base_happiness": 50,

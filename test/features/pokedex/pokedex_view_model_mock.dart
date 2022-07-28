@@ -10,6 +10,8 @@ const pokedexViewModelComplete = PokedexViewModel(
   description: 'description',
   types: [PokemonTypes.bug],
   stats: pokemonStatsViewModelList,
+  evolutionChain: 'evolution chain',
+  pokemonForm: 'pokemon form',
 );
 
 const pokedexViewModelTypesAndStatsEmpty = PokedexViewModel(
@@ -19,6 +21,8 @@ const pokedexViewModelTypesAndStatsEmpty = PokedexViewModel(
   description: 'description',
   types: [],
   stats: [],
+  evolutionChain: 'evolution chain',
+  pokemonForm: 'pokemon form',
 );
 
 const pokedexViewModelCompleteTwoTags = PokedexViewModel(
@@ -28,6 +32,8 @@ const pokedexViewModelCompleteTwoTags = PokedexViewModel(
   description: 'description',
   types: [PokemonTypes.bug, PokemonTypes.dragon],
   stats: [],
+  evolutionChain: 'evolution chain',
+  pokemonForm: 'pokemon form',
 );
 
 const pokedexViewModelHpStat = PokedexViewModel(
@@ -37,6 +43,8 @@ const pokedexViewModelHpStat = PokedexViewModel(
   description: 'description',
   types: [],
   stats: [pokemonStatsViewModelHpMock],
+  evolutionChain: 'evolution chain',
+  pokemonForm: 'pokemon form',
 );
 
 const pokedexViewModelHpAndAttackStats = PokedexViewModel(
@@ -49,6 +57,8 @@ const pokedexViewModelHpAndAttackStats = PokedexViewModel(
     pokemonStatsViewModelHpMock,
     pokemonStatsViewModelAttackMock,
   ],
+  evolutionChain: 'evolution chain',
+  pokemonForm: 'pokemon form',
 );
 
 const pokedexViewModelList = [

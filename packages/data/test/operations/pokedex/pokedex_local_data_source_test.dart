@@ -27,12 +27,13 @@ void main() {
   group('Get pokedex data', (() {
     List<PokedexDataHiveModel> expectedResult = [
       PokedexDataHiveModel(
-        name: 'example',
-        picture: 'picture',
-        description: 'description',
-        types: ['grass'],
-        stats: [],
-      ),
+          name: 'example',
+          picture: 'picture',
+          description: 'description',
+          types: ['grass'],
+          stats: [],
+          evolutionChain: 'evolution chain',
+          pokemonForm: 'pokemon form'),
     ];
     const limit = 1;
     const offset = 0;
@@ -61,6 +62,8 @@ void main() {
         description: 'description',
         types: ['types'],
         stats: [],
+        evolutionChain: 'evolution chain',
+        pokemonForm: 'pokemon form',
       )
     ];
 

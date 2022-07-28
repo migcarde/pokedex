@@ -1,4 +1,5 @@
 import 'package:data/models/base_pagination_response.dart';
+import 'package:data/models/base_url_response.dart';
 import 'package:data/models/pokedex_data_hive_model.dart';
 import 'package:data/models/pokemon_details_response.dart';
 import 'package:data/models/pokemon_reponse.dart';
@@ -157,11 +158,15 @@ void main() {
         stat: PokemonStatResponse(name: 'name', url: 'url'),
       ),
     ];
+    const pokemonForms = [
+      PokemonFormResponse(name: 'name', url: 'url'),
+    ];
     const expectedResponse = PokemonDetailsResponse(
       sprite: pokemonExpectedSprite,
       slots: pokemonSlots,
       specie: pokemonSpecie,
       stats: pokemonStats,
+      forms: pokemonForms,
     );
 
     final expectedResult = expectedResponse.toDomain();
@@ -222,8 +227,12 @@ void main() {
         ),
       ),
     ];
-    const expectedResponse =
-        PokemonSpecieResponse(flavors: pokemonFlavorEntries);
+    const evolutionChain =
+        BaseUrlResponse(url: 'https://pokeapi.co/api/v2/evolution-chain/1/');
+    const expectedResponse = PokemonSpecieResponse(
+      flavors: pokemonFlavorEntries,
+      evolutionChain: evolutionChain,
+    );
     final expectedResult = expectedResponse.toDomain();
 
     test('Get pokemon specie - Success', (() async {
@@ -285,6 +294,8 @@ void main() {
             value: 0,
           )
         ],
+        evolutionChain: 'evolution chain',
+        pokemonForm: 'pokemon form',
       ),
     ];
     const limit = 1;
@@ -345,6 +356,8 @@ void main() {
         description: 'description',
         types: ['types'],
         stats: [],
+        evolutionChain: 'evolution chain',
+        pokemonForm: 'pokemon form',
       ),
     ];
 

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:pokedex/common/box_decoration_styles.dart';
 import 'package:pokedex/common/dimens.dart';
@@ -17,32 +15,26 @@ class PokemonType extends StatelessWidget {
   final PokemonTypes type;
 
   static const double blurSigma = 5.0;
-  static const double boxOpacity = 0.4;
+  static const double boxOpacity = 1;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecorationStyles.crystal(
-        boxOpacity: boxOpacity,
+      decoration: BoxDecorationStyles.circularRadius(
         color: _getColorFromType(type),
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
           Radius.circular(Dimens.circularRadius),
         ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: blurSigma,
-            sigmaY: blurSigma,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.mediumDimen,
+            vertical: Dimens.smallestDimen,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Dimens.mediumDimen,
-            ),
-            child: Text(
-              type.name.capitalize(),
-              style: TextStyles.bold(textColor: Colors.white),
-            ),
+          child: Text(
+            type.name.capitalize(),
+            style: TextStyles.bold(textColor: Colors.white),
           ),
         ),
       ),

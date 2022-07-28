@@ -45,20 +45,24 @@ class PokedexCubit extends Cubit<PokedexState> {
       if (pokedexLocalInformation.results.isNotEmpty) {
         emit(PokedexData(data: pokedexLocalInformation));
       } else {
-        final params = PaginationParamsBusiness(offset: offset, limit: limit);
-        final response = await getPokedex(params);
-
-        final pokedex = await _getPokemonDetails(response.results);
-        final pokedexData =
-            PokedexData(data: response.toViewModel<PokedexViewModel>(pokedex));
-        _savePokemonToDatabase(pokedexData.data.results);
-
-        emit(pokedexData);
+        _getPokemonFromRemote(offset: offset, limit: limit);
       }
     } catch (e) {
       emit(const PokedexError(
           message: 'Opps, something is wrong. Please, try again later'));
     }
+  }
+
+  void _getPokemonFromRemote({required int offset, required int limit}) async {
+    final params = PaginationParamsBusiness(offset: offset, limit: limit);
+    final response = await getPokedex(params);
+
+    final pokedex = await _getPokemonDetails(response.results);
+    final pokedexData =
+        PokedexData(data: response.toViewModel<PokedexViewModel>(pokedex));
+    _savePokemonToDatabase(pokedexData.data.results);
+
+    emit(pokedexData);
   }
 
   void getMorePokemons(BasePaginationViewModel<PokedexViewModel> pokemons,
@@ -126,6 +130,8 @@ class PokedexCubit extends Cubit<PokedexState> {
             .text
             .removeJumpLines(),
         stats: pokemonDetails.stats.map((stat) => stat.toViewModel()).toList(),
+        evolutionChain: pokemonDescription.evolutionChain,
+        pokemonForm: pokemonDetails.pokemonForm.first.url,
       ));
     }
 

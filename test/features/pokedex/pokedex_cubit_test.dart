@@ -64,6 +64,8 @@ void main() {
         description: 'description',
         types: [PokemonTypes.bug],
         stats: [],
+        evolutionChain: 'evolution chain',
+        pokemonForm: 'pokemon form',
       )
     ]);
     blocTest<PokedexCubit, PokedexState>(
@@ -150,12 +152,13 @@ void main() {
       build: () {
         const List<PokedexBusiness> expectedLocalDatabaseResponse = [
           PokedexBusiness(
-            name: 'name',
-            picture: 'picture',
-            description: 'description',
-            types: ['types'],
-            stats: [],
-          )
+              name: 'name',
+              picture: 'picture',
+              description: 'description',
+              types: ['types'],
+              stats: [],
+              evolutionChain: 'evolution chain',
+              pokemonForm: 'pokemon form')
         ];
         when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
             .thenAnswer((invocation) async => expectedLocalDatabaseResponse);

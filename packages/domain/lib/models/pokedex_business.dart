@@ -8,6 +8,8 @@ class PokedexBusiness extends Equatable {
   final String description;
   final List<String> types;
   final List<PokemonStatsBusiness> stats;
+  final String evolutionChain;
+  final String pokemonForm;
 
   const PokedexBusiness({
     required this.name,
@@ -15,6 +17,8 @@ class PokedexBusiness extends Equatable {
     required this.description,
     required this.types,
     required this.stats,
+    required this.evolutionChain,
+    required this.pokemonForm,
   });
 
   @override
@@ -24,6 +28,8 @@ class PokedexBusiness extends Equatable {
         description,
         types,
         stats,
+        evolutionChain,
+        pokemonForm,
       ];
 }
 
@@ -34,5 +40,7 @@ extension PokedexBusinessExtensions on PokedexBusiness {
         description: description,
         types: types,
         stats: stats.map((stat) => stat.toHiveModel()).toList(),
+        evolutionChain: evolutionChain,
+        pokemonForm: pokemonForm,
       );
 }

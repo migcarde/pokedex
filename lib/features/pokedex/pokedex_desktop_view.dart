@@ -13,15 +13,19 @@ class PokedexDesktopView extends StatelessWidget {
   final List<PokedexViewModel> pokemons;
   final VoidCallback getMorePokemons;
 
+  static const _sliverGridMaxCrossAxisExtent = 500.0;
+  static const _sliverGridAspectRatio = 2.8;
+  static const _itemPaddingBottom = 8.0;
+
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 500.0,
-          childAspectRatio: 6 / 2,
+          maxCrossAxisExtent: _sliverGridMaxCrossAxisExtent,
+          childAspectRatio: _sliverGridAspectRatio,
         ),
-        padding: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.only(bottom: _itemPaddingBottom),
         itemCount: pokemons.length + 1,
         controller: _setupScrollController(),
         itemBuilder: (BuildContext context, index) {

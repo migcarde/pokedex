@@ -1,23 +1,29 @@
+import 'package:data/models/base_url_response.dart';
 import 'package:domain/models/pokemon_specie_business.dart';
 import 'package:equatable/equatable.dart';
 
 class PokemonSpecieResponse extends Equatable {
   final List<PokemonFlavorEntryResponse> flavors;
+  final BaseUrlResponse evolutionChain;
 
-  const PokemonSpecieResponse({required this.flavors});
+  const PokemonSpecieResponse({
+    required this.flavors,
+    required this.evolutionChain,
+  });
 
   factory PokemonSpecieResponse.fromJson(Map<String, dynamic> json) {
-    final flavors = json['flavor_text_entries'] as List<dynamic>;
+    final List<dynamic> flavors = json['flavor_text_entries'];
 
     return PokemonSpecieResponse(
       flavors: flavors
           .map((flavor) => PokemonFlavorEntryResponse.fromJson(flavor))
           .toList(),
+      evolutionChain: BaseUrlResponse.fromJson(json['evolution_chain']),
     );
   }
 
   @override
-  List<Object?> get props => [flavors];
+  List<Object?> get props => [flavors, evolutionChain];
 }
 
 class PokemonFlavorEntryResponse extends Equatable {
@@ -54,6 +60,7 @@ class PokemonLanguageResponse extends Equatable {
 extension PokemonSpecieResponseExtensions on PokemonSpecieResponse {
   PokemonSpecieBusiness toDomain() => PokemonSpecieBusiness(
         flavors: flavors.map((flavor) => flavor.toDomain()).toList(),
+        evolutionChain: evolutionChain.url,
       );
 }
 
