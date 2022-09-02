@@ -23,6 +23,6 @@ void init() {
   locator.registerFactory<PokemonDetailsCubit>(() => PokemonDetailsCubit(
         getPokemonDetailsById: locator(),
         getPokemonDetailsByUrl: locator(),
-        getPokemonEvolutions: locator(),
+        getPokemonEvolutionsFromUrl: locator(),
       ));
 }

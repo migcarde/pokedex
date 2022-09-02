@@ -4,6 +4,7 @@ import 'package:domain/models/pokemon_evolution_business.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details_by_id.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details_by_url.dart';
 import 'package:domain/operations/pokedex/get_pokemon_evolutions.dart';
+import 'package:domain/operations/pokedex/get_pokemon_evolutions_from_url.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pokedex/common/string_extensions.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
@@ -16,12 +17,12 @@ part 'pokemon_details_state.dart';
 class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
   final GetPokemonDetailsById getPokemonDetailsById;
   final GetPokemonDetailsByUrl getPokemonDetailsByUrl;
-  final GetPokemonEvolutions getPokemonEvolutions;
+  final GetPokemonEvolutionsFromUrl getPokemonEvolutionsFromUrl;
 
   PokemonDetailsCubit({
     required this.getPokemonDetailsById,
     required this.getPokemonDetailsByUrl,
-    required this.getPokemonEvolutions,
+    required this.getPokemonEvolutionsFromUrl,
   }) : super(const PokemonDetailsState());
 
   void init(PokedexViewModel pokemon) async {
@@ -45,7 +46,8 @@ class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
       PokedexViewModel pokemon) async {
     final PokemonDetailsBusiness pokemonDetails =
         await getPokemonDetailsById(pokemon.id);
-    final pokemonEvolutions = await getPokemonEvolutions(pokemon.id);
+    final pokemonEvolutions =
+        await getPokemonEvolutionsFromUrl(pokemon.species);
 
     return PokemonDetailsViewModel(
       id: pokemon.id,
