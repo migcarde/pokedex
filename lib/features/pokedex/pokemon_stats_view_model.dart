@@ -13,7 +13,7 @@ enum PokemonStatsTypeViewModel {
 }
 
 extension PokemonStatsTypeViewModelExtensions on PokemonStatsTypeViewModel {
-  PokemonStatsTypeBusiness toBusinesss() {
+  PokemonStatsTypeBusiness toDomains() {
     switch (this) {
       case PokemonStatsTypeViewModel.hp:
         return PokemonStatsTypeBusiness.hp;
@@ -67,8 +67,8 @@ class PokemonStatsViewModel {
 }
 
 extension PokemonStatsViewModelExtensions on PokemonStatsViewModel {
-  PokemonStatsBusiness toBusiness() => PokemonStatsBusiness(
-        type: type.toBusinesss(),
+  PokemonStatsBusiness toDomain() => PokemonStatsBusiness(
+        type: type.toDomains(),
         value: value,
       );
 }

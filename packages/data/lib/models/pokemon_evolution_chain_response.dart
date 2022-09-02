@@ -1,35 +1,44 @@
-import 'package:data/models/pokemon_details_response.dart';
+import 'package:data/models/pokemon_reponse.dart';
 import 'package:equatable/equatable.dart';
 
-class PokemonEvolutionChain extends Equatable {
-  final EvolutionChain chain;
+class PokemonEvolutionChainResponse extends Equatable {
+  final EvolutionChainResponse chain;
 
-  const PokemonEvolutionChain({required this.chain});
+  const PokemonEvolutionChainResponse({required this.chain});
 
   @override
   List<Object?> get props => [chain];
 
-  factory PokemonEvolutionChain.fromJson(Map<String, dynamic> json) =>
-      PokemonEvolutionChain(chain: json['chain']);
+  factory PokemonEvolutionChainResponse.fromJson(Map<String, dynamic> json) =>
+      PokemonEvolutionChainResponse(
+        chain: EvolutionChainResponse.fromJson(
+          json['chain'],
+        ),
+      );
 }
 
-class EvolutionChain extends Equatable {
-  final PokemonStatsResponse species;
-  final List<EvolutionChain> evolutionDetails;
+class EvolutionChainResponse extends Equatable {
+  final PokemonResponse species;
+  final List<EvolutionChainResponse> evolutionDetails;
 
-  const EvolutionChain({required this.species, required this.evolutionDetails});
+  const EvolutionChainResponse(
+      {required this.species, required this.evolutionDetails});
 
   @override
   List<Object?> get props => [evolutionDetails];
 
-  factory EvolutionChain.fromJson(Map<String, dynamic> json) {
+  factory EvolutionChainResponse.fromJson(Map<String, dynamic> json) {
     final List<dynamic> evolutionDetails = json['evolves_to'];
 
-    return EvolutionChain(
-      species: json['species'],
-      evolutionDetails: evolutionDetails
-          .map((details) => EvolutionChain.fromJson(details))
-          .toList(),
+    return EvolutionChainResponse(
+      species: PokemonResponse.fromJson(
+        json['species'],
+      ),
+      evolutionDetails: evolutionDetails.isNotEmpty
+          ? evolutionDetails
+              .map((details) => EvolutionChainResponse.fromJson(details))
+              .toList()
+          : [],
     );
   }
 }

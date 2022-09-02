@@ -3,37 +3,41 @@ import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:equatable/equatable.dart';
 
 class PokemonDetailsResponse extends Equatable {
+  final int id;
   final PokemonSpriteResponse sprite;
   final List<PokemonSlotTypeResponse> slots;
   final PokemonDetailsSpecieResponse specie;
   final List<PokemonStatsResponse> stats;
-  final List<PokemonFormResponse> forms;
 
   const PokemonDetailsResponse({
+    required this.id,
     required this.sprite,
     required this.slots,
     required this.specie,
     required this.stats,
-    required this.forms,
   });
 
   factory PokemonDetailsResponse.fromJson(Map<String, dynamic> json) {
     final List<dynamic> slots = json['types'];
     final List<dynamic> stats = json['stats'];
-    final List<dynamic> forms = json['forms'];
 
     return PokemonDetailsResponse(
+      id: json['id'],
       sprite: PokemonSpriteResponse.fromJson(json['sprites']),
       slots:
           slots.map((slot) => PokemonSlotTypeResponse.fromJson(slot)).toList(),
       specie: PokemonDetailsSpecieResponse.fromJson(json['species']),
       stats: stats.map((stat) => PokemonStatsResponse.fromJson(stat)).toList(),
-      forms: forms.map((form) => PokemonFormResponse.fromJson(form)).toList(),
     );
   }
 
   @override
-  List<Object?> get props => [sprite, slots];
+  List<Object?> get props => [
+        sprite,
+        slots,
+        specie,
+        stats,
+      ];
 }
 
 class PokemonSpriteResponse extends Equatable {
@@ -47,11 +51,12 @@ class PokemonSpriteResponse extends Equatable {
 
   factory PokemonSpriteResponse.fromJson(Map<String, dynamic> json) =>
       PokemonSpriteResponse(
-          backDefault: json['back_default'],
-          frontDefault: json['front_default']);
+        backDefault: json['back_default'],
+        frontDefault: json['front_default'],
+      );
 
   @override
-  List<Object?> get props => [backDefault];
+  List<Object?> get props => [backDefault, frontDefault];
 }
 
 class PokemonSlotTypeResponse extends Equatable {
@@ -156,11 +161,11 @@ class PokemonFormResponse extends Equatable {
 
 extension PokemonDetailsResponseExtensions on PokemonDetailsResponse {
   PokemonDetailsBusiness toDomain() => PokemonDetailsBusiness(
+        id: id,
         sprite: sprite.toDomain(),
         slots: slots.map((slot) => slot.toDomain()).toList(),
         specie: specie.toDomain(),
-        stats: stats.map((e) => e.toBusiness()).toList(),
-        pokemonForm: forms.map((form) => form.toBusiness()).toList(),
+        stats: stats.map((e) => e.toDomain()).toList(),
       );
 }
 
@@ -186,7 +191,7 @@ extension PokemonSpecieResponseExtensions on PokemonDetailsSpecieResponse {
 }
 
 extension PokemonStatsResponseExtensions on PokemonStatsResponse {
-  PokemonStatsBusiness toBusiness() => PokemonStatsBusiness(
+  PokemonStatsBusiness toDomain() => PokemonStatsBusiness(
         type: _getType(stat.name),
         value: baseStat,
       );
@@ -207,11 +212,4 @@ extension PokemonStatsResponseExtensions on PokemonStatsResponse {
         return PokemonStatsTypeBusiness.speed;
     }
   }
-}
-
-extension PokemonFormResponseExtensions on PokemonFormResponse {
-  PokemonFormBusiness toBusiness() => PokemonFormBusiness(
-        name: name,
-        url: url,
-      );
 }

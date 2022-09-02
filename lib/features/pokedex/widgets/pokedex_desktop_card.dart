@@ -4,7 +4,7 @@ import 'package:pokedex/common/dimens.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 import 'package:pokedex/features/pokedex/widgets/pokemon_display.dart';
 import 'package:pokedex/features/pokedex/widgets/pokemon_summary.dart';
-import 'package:pokedex/features/pokemon_details/pokemon_details_desktop_view.dart';
+import 'package:pokedex/features/pokemon_details/pokemon_details_view.dart';
 
 class PokedexDesktopCard extends StatelessWidget {
   const PokedexDesktopCard({
@@ -22,7 +22,7 @@ class PokedexDesktopCard extends StatelessWidget {
       onTap: () {
         showDialog(
           context: context,
-          builder: (dialogContext) => PokemonDetailsDesktopView(
+          builder: (dialogContext) => PokemonDetailsView(
             pokemon: pokemon,
           ),
         );

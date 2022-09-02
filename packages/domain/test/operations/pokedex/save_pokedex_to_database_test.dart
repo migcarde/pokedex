@@ -1,5 +1,6 @@
 import 'package:data/network/repository_failure.dart';
 import 'package:domain/models/pokedex_business.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:domain/operations/pokedex/save_pokedex_to_database.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,15 +21,16 @@ void main() {
   group('Save pokedex to database', (() {
     const params = [
       PokedexBusiness(
+        id: 1,
         name: 'name',
-        picture: 'picture',
+        frontPicture: 'frontPicture',
+        backPicture: 'backPicture',
         description: 'description',
         types: ['types'],
         stats: [
           PokemonStatsBusiness(type: PokemonStatsTypeBusiness.hp, value: 0),
         ],
-        pokemonForm: 'pokemon form',
-        evolutionChain: 'evolution chain',
+        species: PokemonDetailsSpecieBusiness(url: 'url'),
       ),
     ];
 

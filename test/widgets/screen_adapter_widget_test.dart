@@ -107,7 +107,7 @@ void main() {
   );
 
   testWidgets(
-    'Screen adapter widget use mobile screen with 1333x1333 screen size',
+    'Screen adapter widget use tablet screen with 1333x1333 screen size',
     ((WidgetTester tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(4000, 4000);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
@@ -121,9 +121,9 @@ void main() {
         ),
       );
 
-      final mobileScreenFinder = find.byType(SizedBox);
+      final tabletScreenFinder = find.byType(CircularProgressIndicator);
 
-      expect(mobileScreenFinder, findsOneWidget);
+      expect(tabletScreenFinder, findsOneWidget);
     }),
   );
 

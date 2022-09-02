@@ -5,6 +5,7 @@ import 'package:domain/models/pagination_params_business.dart';
 import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokedex_local_database_params.dart';
 import 'package:domain/models/pokemon_business.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pokedex/base/base_pagination_view_model.dart';
@@ -59,13 +60,12 @@ void main() {
     const expectedDataResult =
         BasePaginationViewModel<PokedexViewModel>(count: 1, results: [
       PokedexViewModel(
+        id: 1,
         name: 'name',
         picture: 'picture',
         description: 'description',
         types: [PokemonTypes.bug],
-        stats: [],
-        evolutionChain: 'evolution chain',
-        pokemonForm: 'pokemon form',
+        species: 'species',
       )
     ]);
     blocTest<PokedexCubit, PokedexState>(
@@ -152,13 +152,15 @@ void main() {
       build: () {
         const List<PokedexBusiness> expectedLocalDatabaseResponse = [
           PokedexBusiness(
-              name: 'name',
-              picture: 'picture',
-              description: 'description',
-              types: ['types'],
-              stats: [],
-              evolutionChain: 'evolution chain',
-              pokemonForm: 'pokemon form')
+            id: 1,
+            name: 'name',
+            frontPicture: 'picture',
+            backPicture: 'backPicture',
+            description: 'description',
+            types: ['types'],
+            species: PokemonDetailsSpecieBusiness(url: 'specie'),
+            stats: [],
+          ),
         ];
         when(() => getPokedexFromDatabase.call(getPokedexFromDatabaseParams))
             .thenAnswer((invocation) async => expectedLocalDatabaseResponse);

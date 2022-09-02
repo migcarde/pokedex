@@ -21,7 +21,7 @@ class ScreenAdapterWidget extends StatelessWidget {
     } else if (MediaQuery.of(context).size.width <= Dimens.desktopWidth) {
       screen = tabletScreen ?? mobileScreen;
     } else {
-      screen = desktopScreen ?? mobileScreen;
+      screen = desktopScreen ?? tabletScreen ?? mobileScreen;
     }
     return Scaffold(
       body: Container(

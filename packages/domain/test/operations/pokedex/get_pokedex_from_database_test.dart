@@ -1,6 +1,7 @@
 import 'package:data/network/repository_failure.dart';
 import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokedex_local_database_params.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:domain/operations/pokedex/get_pokedex_from_database.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,8 +24,10 @@ void main() {
 
     const List<PokedexBusiness> expectedResult = [
       PokedexBusiness(
+        id: 1,
         name: 'name',
-        picture: 'picture',
+        frontPicture: 'frontPicture',
+        backPicture: 'backPicture',
         description: 'description',
         types: ['types'],
         stats: [
@@ -33,8 +36,7 @@ void main() {
             value: 0,
           ),
         ],
-        evolutionChain: 'evolution chain',
-        pokemonForm: 'pokemon form',
+        species: PokemonDetailsSpecieBusiness(url: 'url'),
       ),
     ];
 

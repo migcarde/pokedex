@@ -1,46 +1,51 @@
 import 'package:data/models/pokedex_data_hive_model.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:equatable/equatable.dart';
 
 class PokedexBusiness extends Equatable {
+  final int id;
   final String name;
-  final String picture;
+  final String frontPicture;
+  final String backPicture;
   final String description;
   final List<String> types;
   final List<PokemonStatsBusiness> stats;
-  final String evolutionChain;
-  final String pokemonForm;
+  final PokemonDetailsSpecieBusiness species;
 
   const PokedexBusiness({
+    required this.id,
     required this.name,
-    required this.picture,
+    required this.frontPicture,
+    required this.backPicture,
     required this.description,
     required this.types,
     required this.stats,
-    required this.evolutionChain,
-    required this.pokemonForm,
+    required this.species,
   });
 
   @override
   List<Object?> get props => [
+        id,
         name,
-        picture,
+        frontPicture,
+        backPicture,
         description,
         types,
         stats,
-        evolutionChain,
-        pokemonForm,
+        species,
       ];
 }
 
 extension PokedexBusinessExtensions on PokedexBusiness {
   PokedexDataHiveModel toHiveModel() => PokedexDataHiveModel(
+        id: id,
         name: name,
-        picture: picture,
+        frontPicture: frontPicture,
+        backPicture: backPicture,
         description: description,
         types: types,
         stats: stats.map((stat) => stat.toHiveModel()).toList(),
-        evolutionChain: evolutionChain,
-        pokemonForm: pokemonForm,
+        species: species.url,
       );
 }

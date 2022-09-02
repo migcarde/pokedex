@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:data/models/pokedex_data_hive_model.dart';
 import 'package:data/operations/pokedex/pokedex_local_data_source.dart';
 import 'package:domain/models/pokedex_business.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:mocktail/mocktail.dart';
@@ -27,13 +28,15 @@ void main() {
   group('Get pokedex data', (() {
     List<PokedexDataHiveModel> expectedResult = [
       PokedexDataHiveModel(
-          name: 'example',
-          picture: 'picture',
-          description: 'description',
-          types: ['grass'],
-          stats: [],
-          evolutionChain: 'evolution chain',
-          pokemonForm: 'pokemon form'),
+        id: 1,
+        name: 'example',
+        frontPicture: 'frontPicture',
+        backPicture: 'backPicture',
+        description: 'description',
+        types: ['grass'],
+        stats: [],
+        species: 'species',
+      ),
     ];
     const limit = 1;
     const offset = 0;
@@ -54,28 +57,34 @@ void main() {
     }));
   }));
 
-  group('Save pokedex data', (() {
+  group('Save pokedex data -', (() {
+    const species = PokemonDetailsSpecieBusiness(url: 'species');
     const List<PokedexBusiness> pokedexToSave = [
       PokedexBusiness(
+        id: 1,
         name: 'name',
-        picture: 'picture',
+        frontPicture: 'frontPicture',
+        backPicture: 'backPicture',
         description: 'description',
         types: ['types'],
         stats: [],
-        evolutionChain: 'evolution chain',
-        pokemonForm: 'pokemon form',
+        species: species,
       )
     ];
 
     final List<PokedexDataHiveModel> pokedexHiveModelToSave =
         pokedexToSave.map((e) => e.toHiveModel()).toList();
-    test('Save pokedex data - Success', () async {
+    test(' Success', () async {
       // Given
       when(() => hiveInterfaceMock.openBox(box))
           .thenAnswer((invocation) async => boxMock);
 
       when(() => boxMock.addAll(pokedexHiveModelToSave))
-          .thenAnswer((invocation) async => const Iterable<int>.empty());
+          .thenAnswer((invocation) async => [1]);
+
+      // When
+
+      final result = pokedexLocalDataSource.savePokedexData(pokedexToSave);
 
       // Then
       expect(pokedexLocalDataSource.savePokedexData(pokedexToSave),

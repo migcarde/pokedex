@@ -1,5 +1,6 @@
 import 'package:data/models/pokemon_stats_hive_model.dart';
 import 'package:domain/models/pokedex_business.dart';
+import 'package:domain/models/pokemon_details_business.dart';
 import 'package:hive/hive.dart';
 
 part 'pokedex_data_hive_model.g.dart';
@@ -7,45 +8,54 @@ part 'pokedex_data_hive_model.g.dart';
 @HiveType(typeId: 0)
 class PokedexDataHiveModel extends HiveObject {
   @HiveField(0)
-  final String name;
+  final int id;
 
   @HiveField(1)
-  final String picture;
+  final String name;
 
   @HiveField(2)
-  final String description;
+  final String frontPicture;
 
   @HiveField(3)
-  final List<String> types;
+  final String backPicture;
 
   @HiveField(4)
-  final List<PokemonStatsHiveModel> stats;
+  final String description;
 
   @HiveField(5)
-  final String evolutionChain;
+  final List<String> types;
 
   @HiveField(6)
-  final String pokemonForm;
+  final List<PokemonStatsHiveModel> stats;
+
+  @HiveField(7)
+  final String species;
+
+  //! TODO: Add evolution chain url
 
   PokedexDataHiveModel({
+    required this.id,
     required this.name,
-    required this.picture,
+    required this.frontPicture,
+    required this.backPicture,
     required this.description,
     required this.types,
     required this.stats,
-    required this.evolutionChain,
-    required this.pokemonForm,
+    required this.species,
   });
 }
 
 extension PokedexHiveModelParser on PokedexDataHiveModel {
   PokedexBusiness toDomain() => PokedexBusiness(
+        id: id,
         name: name,
-        picture: picture,
+        frontPicture: frontPicture,
+        backPicture: backPicture,
         description: description,
         types: types,
         stats: stats.map((stat) => stat.toDomain()).toList(),
-        evolutionChain: evolutionChain,
-        pokemonForm: pokemonForm,
+        species: PokemonDetailsSpecieBusiness(
+          url: species,
+        ),
       );
 }

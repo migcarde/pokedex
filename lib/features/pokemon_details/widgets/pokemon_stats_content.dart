@@ -15,6 +15,7 @@ class PokemonStatsContent extends StatelessWidget {
       alignment: WrapAlignment.spaceBetween,
       direction: Axis.horizontal,
       spacing: _spacing,
+      runSpacing: _spacing,
       children: stats
           .map(
             (stat) => PokemonStatInformation(

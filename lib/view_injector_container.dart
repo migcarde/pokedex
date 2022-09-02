@@ -3,6 +3,7 @@ import 'package:data/data_injection_container.dart' as data_injection_container;
 import 'package:domain/domain_injection_container.dart'
     as domain_injection_container;
 import 'package:pokedex/features/pokedex/cubit/pokedex_cubit.dart';
+import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
 
 final locator = GetIt.instance;
 
@@ -18,5 +19,10 @@ void init() {
         getPokemonDescription: locator(),
         getPokedexFromDatabase: locator(),
         savePokedexToDatabase: locator(),
+      ));
+  locator.registerFactory<PokemonDetailsCubit>(() => PokemonDetailsCubit(
+        getPokemonDetailsById: locator(),
+        getPokemonDetailsByUrl: locator(),
+        getPokemonEvolutions: locator(),
       ));
 }

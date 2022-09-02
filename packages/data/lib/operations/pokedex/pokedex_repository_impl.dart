@@ -8,6 +8,7 @@ import 'package:domain/models/base_pagination_business.dart';
 import 'package:domain/models/pokedex_business.dart';
 import 'package:domain/models/pokemon_business.dart';
 import 'package:domain/models/pokemon_details_business.dart';
+import 'package:domain/models/pokemon_evolution_business.dart';
 import 'package:domain/models/pokemon_specie_business.dart';
 
 import 'package:domain/operations/pokedex/pokedex_repository.dart';
@@ -42,8 +43,15 @@ class PokedexRepositoryImpl implements PokedexRepository {
   }
 
   @override
-  Future<PokemonDetailsBusiness> getPokemon(String url) async {
-    final pokemon = await pokedexRemoteDataSource.getPokemon(url);
+  Future<PokemonDetailsBusiness> getPokemonById(int id) async {
+    final pokemon = await pokedexRemoteDataSource.getPokemonById(id);
+
+    return pokemon.toDomain();
+  }
+
+  @override
+  Future<PokemonDetailsBusiness> getPokemonByUrl(String url) async {
+    final pokemon = await pokedexRemoteDataSource.getPokemonByUrl(url);
 
     return pokemon.toDomain();
   }
@@ -66,5 +74,23 @@ class PokedexRepositoryImpl implements PokedexRepository {
   @override
   Future<void> savePokedexData(List<PokedexBusiness> pokemons) async {
     await pokedexLocalDataSource.savePokedexData(pokemons);
+  }
+
+  @override
+  Future<PokemonEvolutionBusiness> getPokemonEvolutions(int pokemonId) async {
+    final pokemonEvolutions =
+        await pokedexRemoteDataSource.getPokemonEvolutions(pokemonId);
+
+    return pokemonEvolutions.chain.toDomain();
+  }
+
+  //! TODO: Add test cases
+  @override
+  Future<PokemonEvolutionBusiness> getPokemonEvolutionsFromUrl(
+      String url) async {
+    final pokemonEvolutions =
+        await pokedexRemoteDataSource.getPokemonEvolutionsFromUrl(url);
+
+    return pokemonEvolutions.chain.toDomain();
   }
 }

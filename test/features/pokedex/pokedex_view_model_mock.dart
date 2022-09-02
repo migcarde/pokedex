@@ -1,64 +1,53 @@
 import 'package:pokedex/common/pokemon_types.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 
-import 'pokemon_stats_type_mock.dart';
-
 const pokedexViewModelComplete = PokedexViewModel(
+  id: 1,
   name: 'name',
   picture:
       'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
   description: 'description',
   types: [PokemonTypes.bug],
-  stats: pokemonStatsViewModelList,
-  evolutionChain: 'evolution chain',
-  pokemonForm: 'pokemon form',
+  species: 'species',
 );
 
 const pokedexViewModelTypesAndStatsEmpty = PokedexViewModel(
-  name: 'name',
-  picture:
-      'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
-  description: 'description',
-  types: [],
-  stats: [],
-  evolutionChain: 'evolution chain',
-  pokemonForm: 'pokemon form',
-);
+    id: 2,
+    name: 'name',
+    picture:
+        'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
+    description: 'description',
+    types: [],
+    species: 'species');
 
 const pokedexViewModelCompleteTwoTags = PokedexViewModel(
+  id: 1,
   name: 'name',
   picture:
       'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
   description: 'description',
   types: [PokemonTypes.bug, PokemonTypes.dragon],
-  stats: [],
-  evolutionChain: 'evolution chain',
-  pokemonForm: 'pokemon form',
+  species: 'species',
 );
 
 const pokedexViewModelHpStat = PokedexViewModel(
+  id: 1,
   name: 'name',
   picture:
       'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
   description: 'description',
   types: [],
-  stats: [pokemonStatsViewModelHpMock],
-  evolutionChain: 'evolution chain',
-  pokemonForm: 'pokemon form',
+  species: 'species',
 );
 
 const pokedexViewModelHpAndAttackStats = PokedexViewModel(
+  id: 1,
   name: 'name',
   picture:
       'https://economipedia.com/wp-content/uploads/test-de-estr%C3%A9s.png',
   description: 'description',
   types: [],
-  stats: [
-    pokemonStatsViewModelHpMock,
-    pokemonStatsViewModelAttackMock,
-  ],
-  evolutionChain: 'evolution chain',
-  pokemonForm: 'pokemon form',
+  species: 'species',
 );
 
 const pokedexViewModelList = [
