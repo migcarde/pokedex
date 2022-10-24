@@ -6,6 +6,7 @@ import 'package:domain/operations/pokedex/get_pokemon_details_by_id.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details_by_url.dart';
 import 'package:domain/operations/pokedex/get_pokemon_evolutions_from_url.dart';
 import 'package:domain/operations/pokedex/get_pokemon_evolutions.dart';
+import 'package:domain/operations/pokedex/get_pokemon_specie.dart';
 import 'package:domain/operations/pokedex/save_pokedex_to_database.dart';
 import 'package:get_it/get_it.dart';
 
@@ -23,6 +24,7 @@ void init() {
       () => GetPokemonDescription(pokedexRepository: locator()));
   locator.registerFactory(
       () => GetPokemonEvolutions(pokedexRepository: locator()));
+  locator.registerFactory(() => GetPokemonSpecie(pokedexRepository: locator()));
   locator.registerFactory(
       () => GetPokemonEvolutionsFromUrl(pokedexRepository: locator()));
 

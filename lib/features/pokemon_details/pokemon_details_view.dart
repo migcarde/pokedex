@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pokedex/features/pokedex/pokedex_view_model.dart';
 import 'package:pokedex/features/pokemon_details/cubit/pokemon_details_cubit.dart';
 import 'package:pokedex/features/pokemon_details/pokemon_details_desktop_view.dart';
+import 'package:pokedex/features/pokemon_details/pokemon_details_mobile_view.dart';
 import 'package:pokedex/widgets/dialog_adapter_widget.dart';
 import 'package:pokedex/widgets/pokemon_loader.dart';
 import 'package:pokedex/widgets/something_wrong_content.dart';
@@ -28,7 +29,10 @@ class PokemonDetailsView extends StatelessWidget {
               return const PokemonLoader();
             case PokemonDetailsStatus.success:
               return DialogAdapterWidget(
-                mobileDialog: PokemonDetailsDesktopView(
+                desktopDialog: PokemonDetailsDesktopView(
+                  pokemonDetails: state.pokemonDetails!,
+                ),
+                mobileDialog: PokemonDetailsMobileView(
                   pokemonDetails: state.pokemonDetails!,
                 ),
               );
