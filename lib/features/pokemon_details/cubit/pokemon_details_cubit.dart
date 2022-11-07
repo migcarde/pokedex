@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:domain/models/pokemon_details_business.dart';
 import 'package:domain/models/pokemon_evolution_business.dart';
 import 'package:domain/operations/pokedex/get_pokemon_details_by_id.dart';
-import 'package:domain/operations/pokedex/get_pokemon_details_by_url.dart';
 import 'package:domain/operations/pokedex/get_pokemon_evolutions_from_url.dart';
 import 'package:domain/operations/pokedex/get_pokemon_specie.dart';
 import 'package:equatable/equatable.dart';
@@ -16,13 +15,11 @@ part 'pokemon_details_state.dart';
 
 class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
   final GetPokemonDetailsById getPokemonDetailsById;
-  final GetPokemonDetailsByUrl getPokemonDetailsByUrl;
   final GetPokemonSpecie getPokemonSpecie;
   final GetPokemonEvolutionsFromUrl getPokemonEvolutionsFromUrl;
 
   PokemonDetailsCubit({
     required this.getPokemonDetailsById,
-    required this.getPokemonDetailsByUrl,
     required this.getPokemonSpecie,
     required this.getPokemonEvolutionsFromUrl,
   }) : super(const PokemonDetailsState());

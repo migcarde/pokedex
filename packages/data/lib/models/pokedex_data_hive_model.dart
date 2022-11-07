@@ -31,8 +31,6 @@ class PokedexDataHiveModel extends HiveObject {
   @HiveField(7)
   final String species;
 
-  //! TODO: Add evolution chain url
-
   PokedexDataHiveModel({
     required this.id,
     required this.name,

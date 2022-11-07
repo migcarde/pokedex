@@ -12,10 +12,10 @@ void main() {
   late PokedexRepositoryMock pokedexRepository;
   late GetPokedex getPokedex;
 
-  setUp((() {
+  setUp(() {
     pokedexRepository = PokedexRepositoryMock();
     getPokedex = GetPokedex(pokedexRepository: pokedexRepository);
-  }));
+  });
 
   group('Get pokedex call', () {
     const params = PaginationParamsBusiness(offset: 0, limit: 1);
