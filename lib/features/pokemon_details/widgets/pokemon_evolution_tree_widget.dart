@@ -28,9 +28,10 @@ class PokemonEvolutionTreeWidget extends StatelessWidget {
                   children: [
                     PokemonSpriteWidget(
                         pictureUrl: e.picture, evolutionName: e.name),
-                    PokemonEvolutionTreeWidget(
-                      evolutions: e.evolvesTo,
-                    )
+                    if (e.evolvesTo.isNotEmpty)
+                      PokemonEvolutionTreeWidget(
+                        evolutions: e.evolvesTo,
+                      )
                   ],
                 ))
             .toList(),

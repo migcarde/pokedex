@@ -36,7 +36,9 @@ class PokemonDetailsDesktopView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      PokemonInformation(pokemonDetails: pokemonDetails),
+                      Expanded(
+                          child: PokemonInformation(
+                              pokemonDetails: pokemonDetails)),
                       Container(
                         width: _dividerWidth,
                         height: _dividerHeight,
