@@ -38,8 +38,14 @@ class PokemonDetailsMobileView extends StatelessWidget {
                       labelStyle: TextStyles.bold(),
                       labelColor: Colors.white,
                       tabs: const [
-                        Tab(text: 'Detalles'),
-                        Tab(text: 'Evoluciones'),
+                        MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Tab(text: 'Detalles'),
+                        ),
+                        MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Tab(text: 'Evoluciones'),
+                        ),
                       ],
                     ),
                   ),

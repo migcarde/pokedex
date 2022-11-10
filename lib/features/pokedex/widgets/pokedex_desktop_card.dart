@@ -27,27 +27,30 @@ class PokedexDesktopCard extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        margin: const EdgeInsets.only(
-          left: Dimens.veryLargeDimen,
-          right: Dimens.veryLargeDimen,
-          top: Dimens.veryLargeDimen,
-        ),
-        decoration: BoxDecorationStyles.crystal(),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            PokemonSummary(pokemon: pokemon),
-            Positioned.fill(
-              top: pokemonBoxPositioned,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: PokemonDisplay(
-                  picture: pokemon.picture,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Container(
+          margin: const EdgeInsets.only(
+            left: Dimens.veryLargeDimen,
+            right: Dimens.veryLargeDimen,
+            top: Dimens.veryLargeDimen,
+          ),
+          decoration: BoxDecorationStyles.crystal(),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              PokemonSummary(pokemon: pokemon),
+              Positioned.fill(
+                top: pokemonBoxPositioned,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: PokemonDisplay(
+                    picture: pokemon.picture,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
