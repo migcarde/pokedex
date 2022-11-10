@@ -26,7 +26,18 @@ class PokemonService {
         return parsedResponse<Map<String, dynamic>>(response);
       });
 
-  Future<Map<String, dynamic>> getPokemon(String url) async =>
+  Future<Map<String, dynamic>> getPokemonById(int id) async =>
+      await requestServer<Map<String, dynamic>>(() async {
+        final uri = Uri.https(
+          AppConfiguration.of().baseUrl,
+          '/api/v2/pokemon/$id',
+        );
+        final response = await http_interceptor.get(uri);
+
+        return parsedResponse<Map<String, dynamic>>(response);
+      });
+
+  Future<Map<String, dynamic>> getPokemonByUrl(String url) async =>
       await requestServer<Map<String, dynamic>>(() async {
         final uri = Uri.parse(url);
         final response = await http_interceptor.get(uri);
@@ -36,6 +47,23 @@ class PokemonService {
 
   Future<Map<String, dynamic>> getPokemonSpecie(String url) async =>
       await requestServer<Map<String, dynamic>>(() async {
+        final uri = Uri.parse(url);
+        final response = await http_interceptor.get(uri);
+
+        return parsedResponse<Map<String, dynamic>>(response);
+      });
+
+  Future<Map<String, dynamic>> getPokemonEvolutions(int id) async =>
+      await requestServer(() async {
+        final uri = Uri.https(
+            AppConfiguration.of().baseUrl, '/api/v2/evolution-chain/$id');
+        final response = await http_interceptor.get(uri);
+
+        return parsedResponse<Map<String, dynamic>>(response);
+      });
+
+  Future<Map<String, dynamic>> getPokemonEvolutionsFromUrl(String url) async =>
+      await requestServer(() async {
         final uri = Uri.parse(url);
         final response = await http_interceptor.get(uri);
 

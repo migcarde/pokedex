@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:data/models/base_pagination_response.dart';
+import 'package:data/models/base_url_response.dart';
 import 'package:data/models/pokemon_details_response.dart';
+import 'package:data/models/pokemon_evolution_chain_response.dart';
 import 'package:data/models/pokemon_reponse.dart';
 import 'package:data/models/pokemon_specie_response.dart';
 import 'package:data/network/repository_failure.dart';
@@ -20,10 +22,10 @@ void main() {
     pokedexRemoteDataSorce = PokedexRemoteDataSource(service: mockService);
   });
 
-  final _pokedexJsonResponse = jsonDecode(
+  final pokedexJsonResponse = jsonDecode(
       '{"count":1126,"next":"https://pokeapi.co/api/v2/pokemon?offset=1&limit=1","previous":null,"results":[{"name":"bulbasaur","url":"https://pokeapi.co/api/v2/pokemon/1/"}]}');
 
-  const _pokedexExpectedResult = BasePaginationResponse<PokemonResponse>(
+  const pokedexExpectedResult = BasePaginationResponse<PokemonResponse>(
       count: 1126,
       next: 'https://pokeapi.co/api/v2/pokemon?offset=1&limit=1',
       results: [
@@ -32,123 +34,133 @@ void main() {
       ]);
 
   group('Get pokedex', () {
-    const _limit = 1;
-    const _offset = 0;
+    const limit = 1;
+    const offset = 0;
 
     test('Get pokedex - Success', () async {
       // Given
-      when(() => mockService.getPokemons(_offset, _limit))
-          .thenAnswer((invocation) async => _pokedexJsonResponse);
+      when(() => mockService.getPokemons(offset, limit))
+          .thenAnswer((invocation) async => pokedexJsonResponse);
 
       // When
-      final result = await pokedexRemoteDataSorce.getPokemons(_offset, _limit);
+      final result = await pokedexRemoteDataSorce.getPokemons(offset, limit);
 
       // Then
-      expect(result, _pokedexExpectedResult);
+      expect(result, pokedexExpectedResult);
 
-      verify(() => mockService.getPokemons(_offset, _limit));
+      verify(() => mockService.getPokemons(offset, limit));
       verifyNoMoreInteractions(mockService);
     });
 
     test('Get pokedex - Repository exception', () async {
       // Given
-      when((() => mockService.getPokemons(_offset, _limit)))
+      when((() => mockService.getPokemons(offset, limit)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemons(_offset, _limit),
+      expect(() => pokedexRemoteDataSorce.getPokemons(offset, limit),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokedex - Unauthorized exception', () async {
       // Given
-      when((() => mockService.getPokemons(_offset, _limit)))
+      when((() => mockService.getPokemons(offset, limit)))
           .thenThrow(Unauthorized());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemons(_offset, _limit),
+      expect(() => pokedexRemoteDataSorce.getPokemons(offset, limit),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokedex - Unknown expection', () async {
       // Given
-      when((() => mockService.getPokemons(_offset, _limit)))
-          .thenThrow(Unknown());
+      when((() => mockService.getPokemons(offset, limit))).thenThrow(Unknown());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemons(_offset, _limit),
+      expect(() => pokedexRemoteDataSorce.getPokemons(offset, limit),
           throwsA(isInstanceOf<Unknown>()));
     });
   });
 
   group('Get pokedex by url', (() {
-    const _url = 'https://pokeapi.co/api/v2/pokemon?limit=1';
+    const url = 'https://pokeapi.co/api/v2/pokemon?limit=1';
 
     test('Get pokedex by url - Success', () async {
       // Given
-      when(() => mockService.getPokemonsByUrl(_url))
-          .thenAnswer((invocation) async => _pokedexJsonResponse);
+      when(() => mockService.getPokemonsByUrl(url))
+          .thenAnswer((invocation) async => pokedexJsonResponse);
 
       // When
-      final result = await pokedexRemoteDataSorce.getPokemonsByUrl(_url);
+      final result = await pokedexRemoteDataSorce.getPokemonsByUrl(url);
 
       // Then
-      expect(result, _pokedexExpectedResult);
+      expect(result, pokedexExpectedResult);
 
-      verify(() => mockService.getPokemonsByUrl(_url));
+      verify(() => mockService.getPokemonsByUrl(url));
       verifyNoMoreInteractions(mockService);
     });
 
     test('Get pokedex by url - Repository exception', () async {
       // Given
-      when((() => mockService.getPokemonsByUrl(_url)))
+      when((() => mockService.getPokemonsByUrl(url)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemonsByUrl(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonsByUrl(url),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokedex by url - Unauthorized exception', () async {
       // Given
-      when((() => mockService.getPokemonsByUrl(_url)))
-          .thenThrow(Unauthorized());
+      when((() => mockService.getPokemonsByUrl(url))).thenThrow(Unauthorized());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemonsByUrl(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonsByUrl(url),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokedex buy url - Unknown expection', () async {
       // Given
-      when((() => mockService.getPokemonsByUrl(_url))).thenThrow(Unknown());
+      when((() => mockService.getPokemonsByUrl(url))).thenThrow(Unknown());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemonsByUrl(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonsByUrl(url),
           throwsA(isInstanceOf<Unknown>()));
     });
   }));
 
   group('Get pokemon', () {
-    const _url = 'https://pokeapi.co/api/v2/pokemon/1/';
-    const _pokemonExpectedSprite = PokemonSpriteResponse(
+    const url = 'https://pokeapi.co/api/v2/pokemon/1/';
+    const pokemonExpectedSprite = PokemonSpriteResponse(
         backDefault:
             'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png',
         frontDefault:
             'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png');
-    const _pokemonSlots = [
+    const pokemonSlots = [
       PokemonSlotTypeResponse(type: PokemonTypeResponse(name: 'grass')),
       PokemonSlotTypeResponse(type: PokemonTypeResponse(name: 'poison')),
     ];
-    const _pokemonSpecie = PokemonDetailsSpecieResponse(
+    const pokemonStats = [
+      PokemonStatsResponse(
+        baseStat: 45,
+        effort: 0,
+        stat: PokemonStatResponse(
+          name: 'hp',
+          url: 'https://pokeapi.co/api/v2/stat/1/',
+        ),
+      ),
+    ];
+    const pokemonSpecie = PokemonDetailsSpecieResponse(
         url: 'https://pokeapi.co/api/v2/pokemon-species/1/');
-    const _pokemonExpectedResult = PokemonDetailsResponse(
-      sprite: _pokemonExpectedSprite,
-      slots: _pokemonSlots,
-      specie: _pokemonSpecie,
+    const pokemonExpectedResult = PokemonDetailsResponse(
+      id: 1,
+      sprite: pokemonExpectedSprite,
+      slots: pokemonSlots,
+      specie: pokemonSpecie,
+      stats: pokemonStats,
     );
 
-    final _pokemonJsonResponse = jsonDecode('''
+    final pokemonJsonResponse = jsonDecode('''
 {
     "abilities": [
         {
@@ -372,46 +384,6 @@ void main() {
                 "name": "hp",
                 "url": "https://pokeapi.co/api/v2/stat/1/"
             }
-        },
-        {
-            "base_stat": 49,
-            "effort": 0,
-            "stat": {
-                "name": "attack",
-                "url": "https://pokeapi.co/api/v2/stat/2/"
-            }
-        },
-        {
-            "base_stat": 49,
-            "effort": 0,
-            "stat": {
-                "name": "defense",
-                "url": "https://pokeapi.co/api/v2/stat/3/"
-            }
-        },
-        {
-            "base_stat": 65,
-            "effort": 1,
-            "stat": {
-                "name": "special-attack",
-                "url": "https://pokeapi.co/api/v2/stat/4/"
-            }
-        },
-        {
-            "base_stat": 65,
-            "effort": 0,
-            "stat": {
-                "name": "special-defense",
-                "url": "https://pokeapi.co/api/v2/stat/5/"
-            }
-        },
-        {
-            "base_stat": 45,
-            "effort": 0,
-            "stat": {
-                "name": "speed",
-                "url": "https://pokeapi.co/api/v2/stat/6/"
-            }
         }
     ],
     "types": [
@@ -436,59 +408,64 @@ void main() {
 
     test('Get pokemon - Success', () async {
       // Given
-      when(() => mockService.getPokemon(_url))
-          .thenAnswer((invocation) async => _pokemonJsonResponse);
+      when(() => mockService.getPokemonByUrl(url))
+          .thenAnswer((invocation) async => pokemonJsonResponse);
 
       // When
-      final result = await pokedexRemoteDataSorce.getPokemon(_url);
+      final result = await pokedexRemoteDataSorce.getPokemonByUrl(url);
 
       // Then
-      expect(result, _pokemonExpectedResult);
+      expect(result, pokemonExpectedResult);
 
-      verify(() => mockService.getPokemon(_url));
+      verify(() => mockService.getPokemonByUrl(url));
       verifyNoMoreInteractions(mockService);
     });
 
     test('Get pokemon - Repository exception', () async {
       // Given
-      when((() => mockService.getPokemon(_url)))
+      when((() => mockService.getPokemonByUrl(url)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemon(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonByUrl(url),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokemon - Unauthorized exception', () async {
       // Given
-      when((() => mockService.getPokemon(_url))).thenThrow(Unauthorized());
+      when((() => mockService.getPokemonByUrl(url))).thenThrow(Unauthorized());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemon(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonByUrl(url),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokemon - Unknown expection', () async {
       // Given
-      when((() => mockService.getPokemon(_url))).thenThrow(Unknown());
+      when((() => mockService.getPokemonByUrl(url))).thenThrow(Unknown());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemon(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonByUrl(url),
           throwsA(isInstanceOf<Unknown>()));
     });
   });
 
   group('Get pokemon specie', (() {
-    const _url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
-    const _pokemonFlavorEntries = [
+    const url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
+    const pokemonFlavorEntries = [
       PokemonFlavorEntryResponse(
-          text:
-              'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
-          language: PokemonLanguageResponse(name: 'en')),
+        text:
+            'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
+        language: PokemonLanguageResponse(name: 'en'),
+      ),
     ];
-    const _pokemonSpecieExpectedResult =
-        PokemonSpecieResponse(flavors: _pokemonFlavorEntries);
-    final _jsonResponse = jsonDecode('''
+    const evolutionChain =
+        BaseUrlResponse(url: 'https://pokeapi.co/api/v2/evolution-chain/1/');
+    const pokemonSpecieExpectedResult = PokemonSpecieResponse(
+      flavors: pokemonFlavorEntries,
+      evolutionChain: evolutionChain,
+    );
+    final jsonResponse = jsonDecode('''
 {
     "base_happiness": 50,
     "capture_rate": 45,
@@ -775,46 +752,279 @@ void main() {
 ''');
     test('Get pokemon specie - Success', () async {
       // Given
-      when(() => mockService.getPokemonSpecie(_url))
-          .thenAnswer((invocation) async => _jsonResponse);
+      when(() => mockService.getPokemonSpecie(url))
+          .thenAnswer((invocation) async => jsonResponse);
 
       // When
-      final result = await pokedexRemoteDataSorce.getPokemonSpecie(_url);
+      final result = await pokedexRemoteDataSorce.getPokemonSpecie(url);
 
       // Then
-      expect(result, _pokemonSpecieExpectedResult);
+      expect(result, pokemonSpecieExpectedResult);
 
-      verify(() => mockService.getPokemonSpecie(_url));
+      verify(() => mockService.getPokemonSpecie(url));
       verifyNoMoreInteractions(mockService);
     });
 
     test('Get pokemon specie - Repository exception', () async {
       // Given
-      when((() => mockService.getPokemonSpecie(_url)))
+      when((() => mockService.getPokemonSpecie(url)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemonSpecie(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonSpecie(url),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokemon specie - Unauthorized exception', () async {
       // Given
-      when((() => mockService.getPokemonSpecie(_url)))
-          .thenThrow(Unauthorized());
+      when((() => mockService.getPokemonSpecie(url))).thenThrow(Unauthorized());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemonSpecie(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonSpecie(url),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokemon specie - Unknown expection', () async {
       // Given
-      when((() => mockService.getPokemonSpecie(_url))).thenThrow(Unknown());
+      when((() => mockService.getPokemonSpecie(url))).thenThrow(Unknown());
 
       // Then
-      expect(() => pokedexRemoteDataSorce.getPokemonSpecie(_url),
+      expect(() => pokedexRemoteDataSorce.getPokemonSpecie(url),
           throwsA(isInstanceOf<Unknown>()));
     });
   }));
+
+  group('Get pokemon evolutions', () {
+    const url = 'https://pokeapi.co/api/v2/evolution-chain/1/';
+    final json = jsonDecode('''
+{
+  "baby_trigger_item": null,
+  "chain": {
+    "evolution_details": [],
+    "evolves_to": [
+      {
+        "evolution_details": [
+          {
+            "gender": null,
+            "held_item": null,
+            "item": null,
+            "known_move": null,
+            "known_move_type": null,
+            "location": null,
+            "min_affection": null,
+            "min_beauty": null,
+            "min_happiness": null,
+            "min_level": 16,
+            "needs_overworld_rain": false,
+            "party_species": null,
+            "party_type": null,
+            "relative_physical_stats": null,
+            "time_of_day": "",
+            "trade_species": null,
+            "trigger": {
+              "name": "level-up",
+              "url": "https://pokeapi.co/api/v2/evolution-trigger/1/"
+            },
+            "turn_upside_down": false
+          }
+        ],
+        "evolves_to": [],
+        "is_baby": false,
+        "species": {
+          "name": "ivysaur",
+          "url": "https://pokeapi.co/api/v2/pokemon-species/2/"
+        }
+      }
+    ],
+    "is_baby": false,
+    "species": {
+      "name": "bulbasaur",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/1/"
+    }
+  },
+  "id": 1
+}
+''');
+    const species = PokemonResponse(
+      name: 'bulbasaur',
+      url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
+    );
+
+    const evolutionDetails = [
+      EvolutionChainResponse(
+        species: PokemonResponse(
+          name: 'ivysaur',
+          url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
+        ),
+        evolutionDetails: [],
+      ),
+    ];
+    const chain = EvolutionChainResponse(
+      species: species,
+      evolutionDetails: evolutionDetails,
+    );
+    const expectedResult = PokemonEvolutionChainResponse(chain: chain);
+
+    test('from url - Success', () async {
+      // Given
+      when(() => mockService.getPokemonEvolutionsFromUrl(url))
+          .thenAnswer((invocation) async => json);
+
+      // When
+      final result =
+          await pokedexRemoteDataSorce.getPokemonEvolutionsFromUrl(url);
+
+      // Then
+      expect(result, expectedResult);
+
+      verify(() => mockService.getPokemonEvolutionsFromUrl(url));
+      verifyNoMoreInteractions(mockService);
+    });
+
+    test('from url - Repository exception', () async {
+      // Given
+      when((() => mockService.getPokemonEvolutionsFromUrl(url)))
+          .thenThrow(RepositoryException());
+
+      // Then
+      expect(() => pokedexRemoteDataSorce.getPokemonEvolutionsFromUrl(url),
+          throwsA(isInstanceOf<RepositoryException>()));
+    });
+
+    test('from url - Unauthorized exception', () async {
+      // Given
+      when((() => mockService.getPokemonEvolutionsFromUrl(url)))
+          .thenThrow(Unauthorized());
+
+      // Then
+      expect(() => pokedexRemoteDataSorce.getPokemonEvolutionsFromUrl(url),
+          throwsA(isInstanceOf<Unauthorized>()));
+    });
+
+    test('from url - Unknown expection', () async {
+      // Given
+      when((() => mockService.getPokemonEvolutionsFromUrl(url)))
+          .thenThrow(Unknown());
+
+      // Then
+      expect(() => pokedexRemoteDataSorce.getPokemonEvolutionsFromUrl(url),
+          throwsA(isInstanceOf<Unknown>()));
+    });
+  });
+
+  group('Get pokemon evolutions from Id -', () {
+    const id = 1;
+    final json = jsonDecode('''
+{
+  "baby_trigger_item": null,
+  "chain": {
+    "evolution_details": [],
+    "evolves_to": [
+      {
+        "evolution_details": [
+          {
+            "gender": null,
+            "held_item": null,
+            "item": null,
+            "known_move": null,
+            "known_move_type": null,
+            "location": null,
+            "min_affection": null,
+            "min_beauty": null,
+            "min_happiness": null,
+            "min_level": 16,
+            "needs_overworld_rain": false,
+            "party_species": null,
+            "party_type": null,
+            "relative_physical_stats": null,
+            "time_of_day": "",
+            "trade_species": null,
+            "trigger": {
+              "name": "level-up",
+              "url": "https://pokeapi.co/api/v2/evolution-trigger/1/"
+            },
+            "turn_upside_down": false
+          }
+        ],
+        "evolves_to": [],
+        "is_baby": false,
+        "species": {
+          "name": "ivysaur",
+          "url": "https://pokeapi.co/api/v2/pokemon-species/2/"
+        }
+      }
+    ],
+    "is_baby": false,
+    "species": {
+      "name": "bulbasaur",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/1/"
+    }
+  },
+  "id": 1
+}
+''');
+    const species = PokemonResponse(
+      name: 'bulbasaur',
+      url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
+    );
+
+    const evolutionDetails = [
+      EvolutionChainResponse(
+        species: PokemonResponse(
+          name: 'ivysaur',
+          url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
+        ),
+        evolutionDetails: [],
+      ),
+    ];
+    const chain = EvolutionChainResponse(
+      species: species,
+      evolutionDetails: evolutionDetails,
+    );
+    const expectedResult = PokemonEvolutionChainResponse(chain: chain);
+
+    test('Success', () async {
+      // Given
+      when(() => mockService.getPokemonEvolutions(id))
+          .thenAnswer((invocation) async => json);
+
+      // When
+      final result = await pokedexRemoteDataSorce.getPokemonEvolutions(id);
+
+      // Then
+      expect(result, expectedResult);
+
+      verify(() => mockService.getPokemonEvolutions(id));
+      verifyNoMoreInteractions(mockService);
+    });
+
+    test('Repository exception', () async {
+      // Given
+      when((() => mockService.getPokemonEvolutions(id)))
+          .thenThrow(RepositoryException());
+
+      // Then
+      expect(() => pokedexRemoteDataSorce.getPokemonEvolutions(id),
+          throwsA(isInstanceOf<RepositoryException>()));
+    });
+
+    test('Unauthorized exception', () async {
+      // Given
+      when((() => mockService.getPokemonEvolutions(id)))
+          .thenThrow(Unauthorized());
+
+      // Then
+      expect(() => pokedexRemoteDataSorce.getPokemonEvolutions(id),
+          throwsA(isInstanceOf<Unauthorized>()));
+    });
+
+    test('Unknown expection', () async {
+      // Given
+      when((() => mockService.getPokemonEvolutions(id))).thenThrow(Unknown());
+
+      // Then
+      expect(() => pokedexRemoteDataSorce.getPokemonEvolutions(id),
+          throwsA(isInstanceOf<Unknown>()));
+    });
+  });
 }

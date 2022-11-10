@@ -17,25 +17,37 @@ class PokedexDataHiveModelAdapter extends TypeAdapter<PokedexDataHiveModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return PokedexDataHiveModel(
-      name: fields[0] as String,
-      picture: fields[1] as String,
-      description: fields[2] as String,
-      types: (fields[3] as List).cast<String>(),
+      id: fields[0] as int,
+      name: fields[1] as String,
+      frontPicture: fields[2] as String,
+      backPicture: fields[3] as String,
+      description: fields[4] as String,
+      types: (fields[5] as List).cast<String>(),
+      stats: (fields[6] as List).cast<PokemonStatsHiveModel>(),
+      species: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, PokedexDataHiveModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.picture)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.description)
+      ..write(obj.frontPicture)
       ..writeByte(3)
-      ..write(obj.types);
+      ..write(obj.backPicture)
+      ..writeByte(4)
+      ..write(obj.description)
+      ..writeByte(5)
+      ..write(obj.types)
+      ..writeByte(6)
+      ..write(obj.stats)
+      ..writeByte(7)
+      ..write(obj.species);
   }
 
   @override

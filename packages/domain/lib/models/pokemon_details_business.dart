@@ -1,18 +1,29 @@
+import 'package:domain/models/pokemon_stats_business.dart';
 import 'package:equatable/equatable.dart';
 
 class PokemonDetailsBusiness extends Equatable {
+  final int id;
   final PokemonSpriteBusiness sprite;
   final List<PokemonSlotTypeBusiness> slots;
   final PokemonDetailsSpecieBusiness specie;
+  final List<PokemonStatsBusiness> stats;
 
   const PokemonDetailsBusiness({
+    required this.id,
     required this.sprite,
     required this.slots,
     required this.specie,
+    required this.stats,
   });
 
   @override
-  List<Object?> get props => [sprite, slots, specie];
+  List<Object?> get props => [
+        id,
+        sprite,
+        slots,
+        specie,
+        stats,
+      ];
 }
 
 class PokemonSpriteBusiness extends Equatable {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pokedex/common/pokemon_types.dart';
 import 'package:pokedex/features/pokedex/widgets/pokemon_type.dart';
 
 void main() {
@@ -7,12 +8,12 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: PokemonType(
-          type: 'type',
+          type: PokemonTypes.bug,
         ),
       ),
     );
 
-    final typeTextFinder = find.text('type');
+    final typeTextFinder = find.text('Bug');
 
     expect(typeTextFinder, findsOneWidget);
   }));

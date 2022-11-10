@@ -2,11 +2,15 @@ import 'package:equatable/equatable.dart';
 
 class PokemonSpecieBusiness extends Equatable {
   final List<PokemonFlavorEntryBusiness> flavors;
+  final String evolutionChain;
 
-  const PokemonSpecieBusiness({required this.flavors});
+  const PokemonSpecieBusiness({
+    required this.flavors,
+    required this.evolutionChain,
+  });
 
   @override
-  List<Object?> get props => [flavors];
+  List<Object?> get props => [flavors, evolutionChain];
 }
 
 class PokemonFlavorEntryBusiness extends Equatable {

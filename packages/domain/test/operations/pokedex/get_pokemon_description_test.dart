@@ -7,69 +7,71 @@ import 'package:mocktail/mocktail.dart';
 import 'pokedex_repository_mock.dart';
 
 void main() {
-  late PokedexRepositoryMock _pokedexRepositoryMock;
-  late GetPokemonDescription _getPokemonDescription;
+  late PokedexRepositoryMock pokedexRepositoryMock;
+  late GetPokemonDescription getPokemonDescription;
 
   setUp((() {
-    _pokedexRepositoryMock = PokedexRepositoryMock();
-    _getPokemonDescription =
-        GetPokemonDescription(pokedexRepository: _pokedexRepositoryMock);
+    pokedexRepositoryMock = PokedexRepositoryMock();
+    getPokemonDescription =
+        GetPokemonDescription(pokedexRepository: pokedexRepositoryMock);
   }));
 
   group('Get pokemon description', () {
-    const _url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
-    const _pokemonFlavorEntries = [
+    const url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
+    const pokemonFlavorEntries = [
       PokemonFlavorEntryBusiness(
           text:
               'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
           language: PokemonLanguageBusiness(name: 'en')),
     ];
-    const _expectedResult =
-        PokemonSpecieBusiness(flavors: _pokemonFlavorEntries);
+    const expectedResult = PokemonSpecieBusiness(
+      flavors: pokemonFlavorEntries,
+      evolutionChain: 'evolution chain',
+    );
 
     test('Get pokemon description - Success', () async {
       // Given
-      when(() => _pokedexRepositoryMock.getPokemonSpecie(_url))
-          .thenAnswer((invocation) async => _expectedResult);
+      when(() => pokedexRepositoryMock.getPokemonSpecie(url))
+          .thenAnswer((invocation) async => expectedResult);
 
       // When
-      final result = await _getPokemonDescription.call(_url);
+      final result = await getPokemonDescription.call(url);
 
       // Then
-      expect(result, _expectedResult);
+      expect(result, expectedResult);
       verify(
-        () => _pokedexRepositoryMock.getPokemonSpecie(_url),
+        () => pokedexRepositoryMock.getPokemonSpecie(url),
       );
-      verifyNoMoreInteractions(_pokedexRepositoryMock);
+      verifyNoMoreInteractions(pokedexRepositoryMock);
     });
 
     test('Get pokemon description - Repository exception', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemonSpecie(_url)))
+      when((() => pokedexRepositoryMock.getPokemonSpecie(url)))
           .thenThrow(RepositoryException());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemonSpecie(_url),
+      expect(() => pokedexRepositoryMock.getPokemonSpecie(url),
           throwsA(isInstanceOf<RepositoryException>()));
     });
 
     test('Get pokemon description - Unauthorized exception', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemonSpecie(_url)))
+      when((() => pokedexRepositoryMock.getPokemonSpecie(url)))
           .thenThrow(Unauthorized());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemonSpecie(_url),
+      expect(() => pokedexRepositoryMock.getPokemonSpecie(url),
           throwsA(isInstanceOf<Unauthorized>()));
     });
 
     test('Get pokemon description - Unknown expection', () async {
       // Given
-      when((() => _pokedexRepositoryMock.getPokemonSpecie(_url)))
+      when((() => pokedexRepositoryMock.getPokemonSpecie(url)))
           .thenThrow(Unknown());
 
       // Then
-      expect(() => _pokedexRepositoryMock.getPokemonSpecie(_url),
+      expect(() => pokedexRepositoryMock.getPokemonSpecie(url),
           throwsA(isInstanceOf<Unknown>()));
     });
   });
